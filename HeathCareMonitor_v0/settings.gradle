@@ -1,0 +1,2 @@
+rootProject.name='Heath Care Monitor_v0'
+include ':app'
