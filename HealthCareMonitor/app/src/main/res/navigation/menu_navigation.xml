@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/menu_navigation">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.healthcaremonitor_v0.UI.home.HomeFragment"
+        android:label="@string/string_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/navigation_diario"
+        android:name="com.example.healthcaremonitor_v0.UI.diario.DiarioFragment"
+        android:label="@string/string_diario" />
+    <fragment
+        android:id="@+id/navigation_statistiche"
+        android:name="com.example.healthcaremonitor_v0.UI.statistiche.StatisticheFragment"
+        android:label="@string/string_statistiche" />
+</navigation>
