@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         bottomNavigation = findViewById(R.id.bottom_navigation_menu);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
-        openFragment(HomeFragment.newInstance("", ""));
+        openFragment(HomeFragment.newInstance());
     }
 
     public void openFragment(Fragment fragment) {
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
                         case R.id.navigation_home:
 
-                            openFragment(HomeFragment.newInstance("", ""));
+                            openFragment(HomeFragment.newInstance());
                             return true;
 
                         case R.id.navigation_diario:
