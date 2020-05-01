@@ -12,6 +12,16 @@ import androidx.fragment.app.Fragment;
 import com.example.healthcaremonitor_v0.R;
 
 public class DiarioFragment extends Fragment {
+
+    public DiarioFragment() {
+
+    }
+
+    public static Fragment newInstance(String s, String s1) {
+        DiarioFragment fragment = new DiarioFragment();
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

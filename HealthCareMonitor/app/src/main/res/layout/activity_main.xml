@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,28 +5,28 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     >
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation_menu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:background="@color/colorPrimary"
-        app:itemTextColor="@color/white"
-        app:labelVisibilityMode="auto"
-        app:menu="@menu/bottom_navigation_menu"
-        tools:layout_editor_absoluteY="675dp" />
-
-    <fragment
-        android:id="@+id/fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/menu_navigation" />
+        android:id="@+id/container"
+        >
 
+        <!-- Main content -->
 
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/colorPrimary"
+            app:itemIconTint="@color/white"
+            app:itemTextColor="@color/white"
+            app:menu="@menu/bottom_navigation_menu"
+            />
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--    android:name="healthcaremonitor.home.HomeFragment"-->

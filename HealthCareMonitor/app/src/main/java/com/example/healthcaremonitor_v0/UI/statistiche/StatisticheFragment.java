@@ -12,6 +12,15 @@ import com.example.healthcaremonitor_v0.R;
 
 public class StatisticheFragment extends Fragment {
 
+    public StatisticheFragment() {
+
+    }
+
+    public static Fragment newInstance(String s, String s1) {
+        StatisticheFragment fragment = new StatisticheFragment();
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
