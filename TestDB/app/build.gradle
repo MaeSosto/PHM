@@ -5,7 +5,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.testdb_3"
+        applicationId "com.example.testdb_4"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
@@ -47,5 +47,4 @@ dependencies {
 
     // optional - Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
-
 }
