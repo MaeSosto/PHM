@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Report {
-    @PrimaryKey
+    @PrimaryKey (autoGenerate = true)
     public int id;
 
     @ColumnInfo(name = "dataeora")
@@ -34,15 +34,16 @@ public class Report {
     public int passi;
 
     @ColumnInfo(name = "descrizione")
-    public String descrizione;
+    public int descrizione;
 
 
-    //Setter and getter
-    public String getDescrizione() {
+    public int getDescrizione() {
         return descrizione;
     }
 
-    public void setDescrizione(String descrizione) {
+    public void setDescrizione(int descrizione) {
         this.descrizione = descrizione;
     }
 }
+
+
