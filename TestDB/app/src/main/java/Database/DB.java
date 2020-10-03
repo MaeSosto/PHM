@@ -10,5 +10,18 @@ import androidx.room.RoomDatabase;
 public abstract class DB extends RoomDatabase {
     public abstract ReportDao reportDao();
 
-}
+    private static volatile DB DBInstance;
 
+    static DB getDatabase(final Context context){
+        //Se non esiste un'istanza del database allora la creo
+        if(DBInstance == null){
+            synchronized (DB.class){
+                if(DBInstance == null){
+                    DBInstance = Room.databaseBuilder(context.getApplicationContext(),
+                            DB.class, "DB").build();
+                }
+            }
+        }
+        return DBInstance;
+    }
+}

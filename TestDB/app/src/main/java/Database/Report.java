@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+
+
 @Entity
 public class Report {
     @PrimaryKey
@@ -32,5 +34,8 @@ public class Report {
 
     @ColumnInfo(name = "passi")
     public int passi;
+
+    @ColumnInfo(name = "descrizione")
+    public int descrizione;
 
 }

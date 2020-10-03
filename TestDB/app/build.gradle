@@ -5,7 +5,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.testdb_2"
+        applicationId "com.example.testdb_3"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
@@ -33,7 +33,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    //Database
+    // Database
     def room_version = "2.2.5"
 
     implementation "androidx.room:room-runtime:$room_version"
@@ -47,6 +47,5 @@ dependencies {
 
     // optional - Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
-
 
 }

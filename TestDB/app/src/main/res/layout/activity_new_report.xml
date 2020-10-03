@@ -6,32 +6,19 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <TextView
-        android:id="@+id/TWbattiti"
-        android:layout_width="206dp"
-        android:layout_height="59dp"
-        android:text="@string/TWbattito_cardiaco" />
-
     <EditText
-        android:id="@+id/ETbattito_cardiaco"
+        android:id="@+id/ETdescrizione"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:autofillHints="" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/Bnewreport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:autofillHints=""
-        android:ems="10"
-        android:inputType="number"
-        android:hint="@string/ETbattito_cardiaco_hint"
+        android:text="@string/Bnewreport"
         />
 
-
-
-    <Button
-        android:id="@+id/bottone_aggiungi_report"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/button_new_report" />
-
-
-
 </LinearLayout>
+

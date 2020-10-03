@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "TestDB_2"
+rootProject.name = "TestDB_3"

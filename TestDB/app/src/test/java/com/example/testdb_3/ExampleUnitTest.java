@@ -1,4 +1,4 @@
-package com.example.personalhealthmonitor;
+package com.example.testdb_3;
 
 import org.junit.Test;
 
