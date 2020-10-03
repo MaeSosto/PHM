@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">HealthCareMonitor_v0</string>
-    <string name="string_home">Home</string>
-    <string name="string_diario">Diario</string>
-    <string name="string_statistiche">Statistiche</string>
-</resources>
