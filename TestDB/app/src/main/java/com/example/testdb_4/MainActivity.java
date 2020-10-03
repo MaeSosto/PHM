@@ -8,15 +8,19 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.room.Room;
 
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
 
+import Database.Diario;
 import Database.NewReportActivity;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static Diario diario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        diario = Room.databaseBuilder(getApplicationContext(), Diario.class, "diario").allowMainThreadQueries().build();
+
+        //Gestore del FAB
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    //Con le due funzioni seguenti abbiamo anche i settings in alto a destra
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

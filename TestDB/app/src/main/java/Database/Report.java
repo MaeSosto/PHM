@@ -34,6 +34,15 @@ public class Report {
     public int passi;
 
     @ColumnInfo(name = "descrizione")
-    public int descrizione;
+    public String descrizione;
 
+
+    //Setter and getter
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
 }
