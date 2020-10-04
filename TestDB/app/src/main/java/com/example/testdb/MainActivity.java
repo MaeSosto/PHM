@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Inizializzo il DB
         db = Room.databaseBuilder(getApplicationContext(), DB.class, "reportdb").build();
+        //db = Room.databaseBuilder(getApplicationContext(), DB.class, "reportdb").allowMainThreadQueries().build();
+
 
         //Fragment container
         fragmentManager = getSupportFragmentManager();

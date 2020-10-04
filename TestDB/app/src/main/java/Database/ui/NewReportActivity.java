@@ -19,6 +19,7 @@ public class NewReportActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_report);
 
+        BtnInvia = findViewById(R.id.Btn_newReport);
         BtnInvia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
