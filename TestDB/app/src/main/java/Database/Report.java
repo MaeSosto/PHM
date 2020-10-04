@@ -14,7 +14,7 @@ public class Report {
 
 
     @ColumnInfo(name = "report_descrizione")
-    public int descrizione;
+    public String descrizione;
 
     //Setter e getter
     public int getId() {
@@ -25,11 +25,11 @@ public class Report {
         this.id = id;
     }
 
-    public int getDescrizione() {
+    public String getDescrizione() {
         return descrizione;
     }
 
-    public void setDescrizione(int descrizione) {
+    public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
     }
 }

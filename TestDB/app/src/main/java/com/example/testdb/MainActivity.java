@@ -1,5 +1,6 @@
 package com.example.testdb;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -8,19 +9,30 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
 
+import Database.DB;
+import Database.ui.NewReportActivity;
+
 public class MainActivity extends AppCompatActivity {
 
+    //Variables
     public static FragmentManager fragmentManager;
+    public static DB db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Inizializzo il DB
+        db = Room.databaseBuilder(getApplicationContext(), DB.class, "reportdb").build();
 
         //Fragment container
         fragmentManager = getSupportFragmentManager();
@@ -29,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
             fragmentManager.beginTransaction().add(R.id.fragment_container, new RerportFragmentList()).commit();
 
         }
-
-
 
         //Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -41,8 +51,12 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                 */
+                Intent intent = new Intent(getApplicationContext(), NewReportActivity.class);
+                startActivity(intent);
             }
         });
     }
