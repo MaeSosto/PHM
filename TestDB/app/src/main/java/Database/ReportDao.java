@@ -7,7 +7,5 @@ import androidx.room.Insert;
 public interface ReportDao {
 
     @Insert
-    void insert(Report report);
-
-
+    void addReport(Report report);
 }
