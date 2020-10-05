@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Inizializzo il DB
-        db = Room.databaseBuilder(getApplicationContext(), DB.class, "reportdb").build();
-        //db = Room.databaseBuilder(getApplicationContext(), DB.class, "reportdb").allowMainThreadQueries().build();
+        //db = Room.databaseBuilder(getApplicationContext(), DB.class, "reportdb").build();
+        db = Room.databaseBuilder(getApplicationContext(), DB.class, "reportdb").allowMainThreadQueries().build();
 
 
         //Fragment container

@@ -32,4 +32,6 @@ public class Report {
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
     }
+
+
 }

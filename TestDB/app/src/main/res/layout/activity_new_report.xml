@@ -12,7 +12,7 @@
     tools:context="Database.ui.login.NewReportActivity">
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/ETid"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/report_descrizione"
+        android:id="@+id/ETdescrizione"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -39,7 +39,7 @@
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/ETid" />
 
     <ProgressBar
         android:id="@+id/loading"
@@ -52,8 +52,8 @@
         android:layout_marginBottom="64dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/report_descrizione"
-        app:layout_constraintStart_toStartOf="@+id/report_descrizione"
+        app:layout_constraintEnd_toEndOf="@+id/ETdescrizione"
+        app:layout_constraintStart_toStartOf="@+id/ETdescrizione"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
 
@@ -61,7 +61,7 @@
         android:id="@+id/Btn_newReport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="158dp"
+        android:layout_marginStart="150dp"
         android:layout_marginTop="199dp"
         android:layout_marginEnd="149dp"
         android:layout_marginBottom="274dp"
@@ -69,5 +69,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/report_descrizione" />
+        app:layout_constraintTop_toBottomOf="@+id/ETdescrizione" />
 </androidx.constraintlayout.widget.ConstraintLayout>
