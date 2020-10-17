@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">PHM</string>
+    <string name="action_settings">Impostazioni</string>
+
+    <string name="title_activity_new_report">NewReportActivity</string>
+
+    <string name="prompt_nota">Altre info</string>
+    <string name="action_action_newreport">Nuovo report</string>
+    <string name="no_report">Non ci sono report</string>
+    <string name="prompt_Battiti">Battiti al minuto</string>
+    <string name="prompt_temperatura">Temperatura corporea</string>
+    <string name="prompt_pressione">Pressione arteriosa</string>
+    <string name="prompt_glicemia">Indice glicemico</string>
+</resources>
