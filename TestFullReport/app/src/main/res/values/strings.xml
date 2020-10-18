@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">TestFullReport</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="prompt_Battiti">Battiti al minuto</string>
+    <string name="prompt_temperatura">Temperatura corporea</string>
+    <string name="prompt_pressione">Pressione arteriosa</string>
+    <string name="prompt_glicemia">Indice glicemico</string>
+    <string name="promp_nuovoreport">Inserisci nuovo report</string>
+    <string name="prompt_nota">Altre info</string>
+    <string name="no_report">Non ci sono report</string>
+</resources>

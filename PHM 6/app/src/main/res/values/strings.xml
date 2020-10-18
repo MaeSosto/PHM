@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">PHM</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="prompt_Battiti">Battiti al minuto</string>
+    <string name="prompt_temperatura">Temperatura corporea</string>
+    <string name="prompt_pressione">Pressione arteriosa</string>
+    <string name="prompt_glicemia">Indice glicemico</string>
+    <string name="promp_nuovoreport">Inserisci nuovo report</string>
+    <string name="prompt_nota">Altre info</string>
+    <string name="no_report">Non ci sono report</string>
+</resources>
