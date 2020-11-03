@@ -11,13 +11,19 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.applandeo.materialcalendarview.EventDay;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    CalendarView calendarView;
+
     TextView data;
+    private List<EventDay> mEventDays = new ArrayList<>();
+    private CalendarView mCalendarView;
 
 
     @Override
@@ -25,11 +31,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        calendarView = findViewById(R.id.calendarView);
+        mCalendarView = (CalendarView) findViewById(R.id.calendarView);
         data = findViewById(R.id.textView);
 
 
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 String date = dayOfMonth + "/" + (month+1) + "/" + year ;
