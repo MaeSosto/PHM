@@ -26,13 +26,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
+import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.example.testmenu2.Database.Report;
 import com.example.testmenu2.Database.ReportViewModel;
 import com.example.testmenu2.R;
+import com.example.testmenu2.Utilities.Converters;
 import com.example.testmenu2.home.ReportListAdapter;
 import com.example.testmenu2.home.SendReportActivity;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -43,6 +46,8 @@ public class DiarioFragment extends Fragment {
     private static ReportListAdapter reportListAdapter;
     public static ReportViewModel reportViewModel;
     public static LiveData<List<Report>> mReports;
+    private SimpleDateFormat SDF;
+    TextView TXVGiorno;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,13 +55,19 @@ public class DiarioFragment extends Fragment {
                 new ViewModelProvider(this).get(DiarioViewModel.class);
         View root = inflater.inflate(R.layout.fragment_diario, container, false);
 
+
+        SDF = new SimpleDateFormat("dd/MM/yyyy");
+        TXVGiorno = root.findViewById(R.id.TXVgiorno);
+        TXVGiorno.setText("Tutti i report");
+
         List<EventDay> events = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         events.add(new EventDay(calendar, R.drawable.sample_three_icons));
-        CalendarView calendarView = (CalendarView) root.findViewById(R.id.calendarView);
+        com.applandeo.materialcalendarview.CalendarView calendarView = (CalendarView) root.findViewById(R.id.calendarView);
         calendarView.setEvents(events);
+
         //CONTAINER MAIN
-        /*RecyclerView recyclerView = root.findViewById(R.id.recyclerview);
+        RecyclerView recyclerView = root.findViewById(R.id.recyclerview);
         reportListAdapter = new ReportListAdapter(getContext());
         recyclerView.setAdapter(reportListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -71,26 +82,25 @@ public class DiarioFragment extends Fragment {
             }
         });
 
-         */
 
-        //QUANDO CLICCHI SU UNA DATA PRECISA
-        /*calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
+        calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                String date = dayOfMonth + "/" + (month+1) + "/" + year;
-                Intent intent = new Intent(getContext(), TodayReport.class);
-                intent.putExtra("giorno", date);
+            public void onDayClick(EventDay eventDay) {
+                Calendar clickedDayCalendar = eventDay.getCalendar();
+                String giorno =SDF.format(clickedDayCalendar.getTime());
+
+                TXVGiorno.setText("Report del "+ giorno);
+                mReports = reportViewModel.getAllReportsInDate(Converters.StringToDate(giorno)); //RESTITUISCE LA LISTA DEI REPORT IN ORDINE DI DATA DI INSERIMENTO
+                mReports.observe(getViewLifecycleOwner(), new Observer<List<Report>>() {
+                    @Override
+                    public void onChanged(List<Report> reports) {
+                        reportListAdapter.setReports(reports);
+                    }
+                });
 
 
-                Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair<View,String>(calendarView,"activity_trans");
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), pairs);
-                startActivity(intent,options.toBundle());
             }
         });
-
-         */
 
         return root;
     }

@@ -73,33 +73,33 @@ public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.Re
     //VIEW HOLDER
     public class ReportViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView TXVGiorno, TXVOra, TXVBattito, TXVPressione, TXVTemperatura, TXVGlicemia, TXVNote;
+        private TextView TXVGiorno, TXVBattito, TXVPressione, TXVTemperatura, TXVGlicemia, TXVNote;
         private int mPosition;
         private ImageView IMGDelete, IMGEdit;
 
         //COSTRUTTORE
         public ReportViewHolder(@NonNull View itemView) {
             super(itemView);
-            TXVGiorno = itemView.findViewById(R.id.TXVgiorno_val);
-            TXVOra = itemView.findViewById(R.id.TXVora_val);
+            //TXVGiorno = itemView.findViewById(R.id.TXVgiorno_val);
+            //TXVOra = itemView.findViewById(R.id.TXVora_val);
+            TXVGiorno = itemView.findViewById(R.id.TXVgiorno_home);
             TXVBattito = itemView.findViewById(R.id.TXVbattito);
             TXVPressione = itemView.findViewById(R.id.TXVpressione);
             TXVTemperatura = itemView.findViewById(R.id.TXVtemperatura);
             TXVGlicemia = itemView.findViewById(R.id.TXVglicemia);
-            TXVNote = itemView.findViewById(R.id.TXVnote_val);
+            TXVNote = itemView.findViewById(R.id.TXVnote);
             IMGDelete = itemView.findViewById(R.id.IMGDelete);
             IMGEdit = itemView.findViewById(R.id.IMGEdit);
         }
 
         //ASSEGNA I VALORI DEL REPORT ALLE ETICHETTE
         public void setData(Report report, int position) {
-            TXVGiorno.setText(Converters.DateToString(report.getGiorno()));
-            TXVOra.setText(report.getOra());
+            TXVGiorno.setText("Report aggiunto il "+Converters.DateToString(report.getGiorno())+" alle "+ report.getOra());
             TXVBattito.setText(nullValue(report.getBattito()));
             TXVPressione.setText(nullValue(report.getPressione()));
             TXVTemperatura.setText(nullValue(report.getTemperatura()));
             TXVGlicemia.setText(nullValue(report.getGlicemia()));
-            TXVNote.setText(nullString(report.getNota()));
+            TXVNote.setText(nullString("Note: "+report.getNota()));
             mPosition = position;
         }
 

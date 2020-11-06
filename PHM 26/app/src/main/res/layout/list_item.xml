@@ -22,42 +22,13 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/TXVgiorno_home"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/TXVgiorno_stock"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Report aggiunto il "
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/TXVgiorno_val"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:text="GIORNO"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/TXVora_stock"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" alle "
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/TXVora_val"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ORA"
-                    android:textSize="16sp"/>
-
-            </LinearLayout>
+                android:layout_gravity="center"
+                android:text="Report aggiunto il GIORNO alle ORA"
+                android:textSize="16sp" />
 
 
             <LinearLayout
@@ -153,27 +124,12 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/TXVnote"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/TXVnote_stock"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Note: "
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/TXVnote_val"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="Altre info" />
-
-            </LinearLayout>
+                android:text="Note: ALTRE INFO"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
