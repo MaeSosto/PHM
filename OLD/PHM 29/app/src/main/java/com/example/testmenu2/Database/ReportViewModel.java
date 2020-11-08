@@ -62,22 +62,26 @@ public class ReportViewModel extends AndroidViewModel {
         return null;
     }
 
-    public LiveData<List<AVG>> getAVGAll(String value){
+    public List<AVG> getAVGAll(String value){
         switch (value){
-            case "Battito": return reportDao.getAVGBattitoAll();
-            case "Pressione": return reportDao.getAVGPressioneAll();
-            case "Temperatura": return reportDao.getAVGTemperaturaAll();
-            case "Glicemia": return reportDao.getAVGGlicemiaAll();
+            case "battito": return reportDao.getAVGBattitoAll();
+            /*case "pressione": return reportDao.getAVGPressioneAll(data);
+            case "temperatura": return reportDao.getAVGTemperaturaInDate(data);
+            case "glicemia": return reportDao.getAVGGlicemiaInDate(data);
+
+             */
         }
         return null;
     }
 
-    public LiveData<List<AVG>> getAVGInPeriod(String value, Date date1, Date date2){
+    public List<AVG> getAVGInPeriod(String value, Date date1, Date date2){
         switch (value){
-            case "Battito": return reportDao.getAVGBattitoInPeriod(date1, date2);
-            case "Pressione": return reportDao.getAVGPressioneInPeriod(date1, date2);
-            case "Temperatura": return reportDao.getAVGTemperaturaInPeriod(date1, date2);
-            case "Glicemia": return reportDao.getAVGGlicemiaInPeriod(date1, date2);
+            case "battito": return reportDao.getAVGBattitoInPeriod(date1, date2);
+            /*case "pressione": return reportDao.getAVGPressioneAll(data);
+            case "temperatura": return reportDao.getAVGTemperaturaInDate(data);
+            case "glicemia": return reportDao.getAVGGlicemiaInDate(data);
+
+             */
         }
         return null;
     }

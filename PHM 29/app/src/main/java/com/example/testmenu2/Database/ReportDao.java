@@ -48,10 +48,28 @@ public interface ReportDao {
     @Query("SELECT AVG(report_glicemia) FROM reports WHERE report_giorno=:date AND report_glicemia != 0")
     LiveData<Double> getAVGGlicemiaInDate(Date date);
 
-    @Query("SELECT AVG(report_battito) AS media, report_giorno FROM reports WHERE report_battito != 0 GROUP BY report_giorno")
-    List<AVG> getAVGBattitoAll();
+    @Query("SELECT AVG(report_battito) AS media, report_giorno AS giorno FROM reports WHERE report_battito != 0 GROUP BY report_giorno ORDER BY report_giorno")
+    LiveData<List<AVG>> getAVGBattitoAll();
 
-    @Query("SELECT AVG(report_battito) AS media, report_giorno FROM reports WHERE report_battito != 0 AND report_giorno>= :date1 AND report_giorno<=:date2 GROUP BY report_giorno")
-    List<AVG> getAVGBattitoInPeriod(Date date1, Date date2);
+    @Query("SELECT AVG(report_pressione) AS media, report_giorno AS giorno FROM reports WHERE report_pressione != 0 GROUP BY report_giorno ORDER BY report_giorno")
+    LiveData<List<AVG>> getAVGPressioneAll();
+
+    @Query("SELECT AVG(report_temperatura) AS media, report_giorno AS giorno FROM reports WHERE report_temperatura != 0 GROUP BY report_giorno ORDER BY report_giorno")
+    LiveData<List<AVG>> getAVGTemperaturaAll();
+
+    @Query("SELECT AVG(report_glicemia) AS media, report_giorno AS giorno FROM reports WHERE report_glicemia != 0 GROUP BY report_giorno ORDER BY report_giorno")
+    LiveData<List<AVG>> getAVGGlicemiaAll();
+
+    @Query("SELECT AVG(report_battito) AS media, report_giorno AS giorno FROM reports WHERE report_battito != 0 AND report_giorno>= :date1 AND report_giorno<=:date2 GROUP BY report_giorno ORDER BY report_giorno")
+    LiveData<List<AVG>> getAVGBattitoInPeriod(Date date1, Date date2);
+
+    @Query("SELECT AVG(report_pressione) AS media, report_giorno AS giorno FROM reports WHERE report_pressione != 0 AND report_giorno>= :date1 AND report_giorno<=:date2 GROUP BY report_giorno ORDER BY report_giorno")
+    LiveData<List<AVG>> getAVGPressioneInPeriod(Date date1, Date date2);
+
+    @Query("SELECT AVG(report_temperatura) AS media, report_giorno AS giorno FROM reports WHERE report_temperatura != 0 AND report_giorno>= :date1 AND report_giorno<=:date2 GROUP BY report_giorno ORDER BY report_giorno")
+    LiveData<List<AVG>> getAVGTemperaturaInPeriod(Date date1, Date date2);
+
+    @Query("SELECT AVG(report_glicemia) AS media, report_giorno AS giorno FROM reports WHERE report_glicemia != 0 AND report_giorno>= :date1 AND report_giorno<=:date2 GROUP BY report_giorno ORDER BY report_giorno")
+    LiveData<List<AVG>> getAVGGlicemiaInPeriod(Date date1, Date date2);
 
 }
