@@ -1,6 +1,7 @@
 package com.example.testmenu2.diario;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,6 +101,7 @@ public class DiarioFragment extends Fragment {
                 String giorno =SDF.format(clickedDayCalendar.getTime());
 
                 TXVGiorno.setText("Report del "+ giorno);
+                Log.i("DEBUG", String.valueOf(Converters.StringToDate(giorno)));
                 mReports = reportViewModel.getAllReportsInDate(Converters.StringToDate(giorno)); //RESTITUISCE LA LISTA DEI REPORT IN ORDINE DI DATA DI INSERIMENTO
                 mReports.observe(getViewLifecycleOwner(), new Observer<List<Report>>() {
                     @Override

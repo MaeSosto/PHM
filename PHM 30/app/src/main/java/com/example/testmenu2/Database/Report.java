@@ -2,6 +2,7 @@ package com.example.testmenu2.Database;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
@@ -35,7 +36,6 @@ public class Report {
 
     //COSTRUTTORE
 
-
     public Report(int id, Date giorno, String ora, double battito, double temperatura, double pressione, double glicemia, String nota) {
         this.id = id;
         this.giorno = giorno;
@@ -46,6 +46,7 @@ public class Report {
         this.glicemia = glicemia;
         this.nota = nota;
     }
+
 
     //SETTER AND GETTER
     public int getId() {

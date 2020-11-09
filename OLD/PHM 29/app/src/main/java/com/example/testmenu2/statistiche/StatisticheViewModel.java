@@ -19,6 +19,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.security.Key;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,7 +34,8 @@ public class StatisticheViewModel extends ViewModel {
 
     public StatisticheViewModel() {
         SDF = new SimpleDateFormat("dd/MM/yyyy");
-
+        inizio = new Date();
+        fine = new Date();
         BattitoVals = new ArrayList<Entry>();
     }
 
@@ -100,37 +102,50 @@ public class StatisticheViewModel extends ViewModel {
 
     public ArrayList<Entry> getLineDataValues(List<AVG> avgs){
         ArrayList<Entry> dataVals = new ArrayList<Entry>();
+        int i = 0;
+        int p = 1;
 
-        for (int i = 0; i < avgs.size(); i++) {
-            AVG avg = avgs.get(i);
-            dataVals.add(new Entry((float) avg.getGiorno().getDay(), (float) avg.getMedia()));
-        }
-        /*Calendar calendar = Calendar.getInstance();
-        calendar.setTime(data1);
-        int i = 0, p = 1;
-        Report report;
+        Calendar calendarInizio = Calendar.getInstance();
+        Calendar calendarFine = Calendar.getInstance();
+        Calendar calendarGiorno = Calendar.getInstance();
 
-        while(calendar.getTime() != data2){
-            report = reports.get(i);
-            if(report.getGiorno() == calendar.getTime()){
-                i++;
-                dataVals.add(new Entry((float) p, (float) report.getBattito()));
+        if(inizio != null && fine != null){
+            calendarInizio.setTime(inizio);
+            calendarFine.setTime(fine);
+            calendarFine.add(Calendar.DATE, 1);
+
+            while (!calendarInizio.equals(calendarFine) && i<avgs.size()){
+                AVG avg = avgs.get(i);
+                calendarGiorno.setTime(avg.getGiorno());
+                if(calendarInizio.equals(calendarGiorno)){
+                    dataVals.add(new Entry(p, (float) avg.getMedia()));
+                    i++;
+                }
+                calendarInizio.add(Calendar.DATE, 1);
+                p++;
             }
-            else dataVals.add(new Entry((float) p, 0 ));
-            p++;
-            calendar.add(Calendar.DATE, 1);
-        }
 
-         */
-
-        /*
-        for(int i = 0; i < reports.size(); i++){
-            Report report = reports.get(i);
-            if(valore == 0 && report.getBattito()!=0) dataVals.add(new Entry())
 
         }
+        else {
+            //Log.i("BATTITO","TUTTO");
 
-         */
+            calendarGiorno.setTime(avgs.get(i).getGiorno());
+            calendarInizio.setTime(avgs.get(i).getGiorno());
+            calendarFine.setTime(avgs.get((avgs.size())-1).getGiorno());
+            calendarFine.add(Calendar.DATE, 1);
+
+            while (!calendarInizio.equals(calendarFine) && i<avgs.size()){
+                AVG avg = avgs.get(i);
+                calendarGiorno.setTime(avg.getGiorno());
+                if(calendarInizio.equals(calendarGiorno)){
+                    dataVals.add(new Entry(p, (float) avg.getMedia()));
+                    i++;
+                }
+                calendarInizio.add(Calendar.DATE, 1);
+                p++;
+            }
+        }
 
         return dataVals;
     }
@@ -204,7 +219,5 @@ public class StatisticheViewModel extends ViewModel {
         Date giorno = Converters.StringToDate(SDF.format(calendar.getTime()));
         return giorno;
     }
-
-
 
 }

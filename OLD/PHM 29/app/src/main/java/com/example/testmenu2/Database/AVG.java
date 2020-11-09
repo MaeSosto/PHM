@@ -11,7 +11,7 @@ public class AVG{
     @ColumnInfo(name = "media")
     private double media;
 
-    @ColumnInfo(name = "report_giorno")
+    @ColumnInfo(name = "giorno")
     private Date giorno;
 
     public AVG(double media, Date giorno) {
