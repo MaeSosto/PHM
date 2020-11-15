@@ -40,12 +40,12 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <TextView
@@ -66,11 +66,15 @@
                         android:text="@string/diario_btn1"
                         android:textAlignment="textEnd"
                         app:icon="@drawable/ic_baseline_filter_alt_24"
-                        app:iconTint="@color/black" />
+                        app:iconTint="@color/black">
+
+                    </Button>
 
                 </LinearLayout>
 
+
             </LinearLayout>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"

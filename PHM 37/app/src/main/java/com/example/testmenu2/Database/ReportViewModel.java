@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProviders;
 
 import java.util.Date;
 import java.util.List;
@@ -49,6 +50,10 @@ public class ReportViewModel extends AndroidViewModel {
 
     public LiveData<Report> getReport(int reportId){
         return reportDao.getReport(reportId);
+    }
+
+    public LiveData<List<Report>> getFilterReports(String S){
+        return reportDao.getFilterReports(S);
     }
 
     public LiveData<Double> getAVGInDate(String value, Date data){

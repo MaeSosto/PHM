@@ -27,8 +27,8 @@ import com.example.testmenu2.Database.Report;
 import com.example.testmenu2.Database.ReportViewModel;
 import com.example.testmenu2.R;
 import com.example.testmenu2.Utilities.Converters;
-import com.example.testmenu2.Utilities.SingleChoiceDialog;
 import com.example.testmenu2.home.ReportListAdapter;
+import com.example.testmenu2.statistiche.StatisticheViewModel;
 
 
 import java.text.SimpleDateFormat;
@@ -39,10 +39,12 @@ import java.util.List;
 
 public class DiarioFragment extends Fragment {
 
+    private DiarioViewModel diarioViewModel;
     private static ReportListAdapter reportListAdapter;
     public static ReportViewModel reportViewModel;
     public static LiveData<List<Report>> mReports;
     private SimpleDateFormat SDF;
+    private TextView TXVGiorno;
     private CalendarView calendarView;
     private Button BTNfiltro;
     int filtro = 1;
@@ -50,17 +52,15 @@ public class DiarioFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DiarioViewModel diarioViewModel =
+        diarioViewModel =
                 new ViewModelProvider(this).get(DiarioViewModel.class);
         View root = inflater.inflate(R.layout.fragment_diario, container, false);
 
 
         SDF = new SimpleDateFormat("dd/MM/yyyy");
-        TextView TXVGiorno;
         TXVGiorno = root.findViewById(R.id.TXVgiorno);
         TXVGiorno.setText(R.string.diario_label2);
         BTNfiltro = root.findViewById(R.id.BTNfiltro);
-
 
         //CONTAINER MAIN
         RecyclerView recyclerView = root.findViewById(R.id.recyclerview);
@@ -73,14 +73,12 @@ public class DiarioFragment extends Fragment {
         updateList();
 
         //BOTTONE DEL FILTRO
-       /* BTNfiltro.setOnClickListener(new View.OnClickListener() {
+        BTNfiltro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showSingleChoiceDialog();
             }
         });
-
-        */
 
         //QUANDO CLICCHI SU UN GIORNO
         calendarView.setOnDayClickListener(new OnDayClickListener() {
@@ -88,18 +86,16 @@ public class DiarioFragment extends Fragment {
             public void onDayClick(EventDay eventDay) {
                 Calendar clickedDayCalendar = eventDay.getCalendar();
                 String giorno =SDF.format(clickedDayCalendar.getTime());
-
-                TXVGiorno.setText(getString(R.string.diario_label3)+ giorno);
+                TXVGiorno.setText(getString(R.string.diaario_label3)+ giorno);
                 Log.i("DEBUG", String.valueOf(Converters.StringToDate(giorno)));
-                mReports = reportViewModel.getAllReportsInDate(Converters.StringToDate(giorno)); //RESTITUISCE LA LISTA DEI REPORT IN ORDINE DI DATA DI INSERIMENTO
+                //mReports = reportViewModel.getAllReportsInDate(Converters.StringToDate(giorno)); //RESTITUISCE LA LISTA DEI REPORT IN ORDINE DI DATA DI INSERIMENTO
+                mReports = diarioViewModel.getFilterQueryInDate(getParentFragment(), getViewLifecycleOwner(), filtro, Converters.StringToDate(giorno));
                 mReports.observe(getViewLifecycleOwner(), new Observer<List<Report>>() {
                     @Override
                     public void onChanged(List<Report> reports) {
                         reportListAdapter.setReports(reports);
                     }
                 });
-
-
             }
         });
 
@@ -119,11 +115,10 @@ public class DiarioFragment extends Fragment {
             }
         });
 
-
-
         return root;
     }
 
+    //APRE IL DIALOG DEL BOTTONE
     private void showSingleChoiceDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         String[] list = getActivity().getResources().getStringArray(R.array.choiche_dialog);
@@ -133,20 +128,20 @@ public class DiarioFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 tmpfiltroDialog = which;
             }
-            }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    filtro = tmpfiltroDialog+1;
-                    if(tmpfiltroDialog > 0)BTNfiltro.setText(String.valueOf(filtro));
-                    else BTNfiltro.setText("Filtro");
-                }
-            })
+        }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                filtro = tmpfiltroDialog+1;
+                if(tmpfiltroDialog > 0)BTNfiltro.setText(String.valueOf(filtro));
+                else BTNfiltro.setText("Filtro");
+            }
+        })
                 .setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                            }
-                        });
+                    }
+                });
         builder.create();
         builder.show();
     }

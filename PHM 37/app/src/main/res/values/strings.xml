@@ -29,10 +29,9 @@
     <string name="settings_label4">Orario notifica: </string>
     <string name="diario_label1">Report del GIORNO</string>
     <string name="diario_btn1">Filtro</string>
-    <string name="diario_label2">Tutti i report del mese</string>
-    <string name="diario_label3">\"Report del \"</string>
-
     <string name="dialog_filtro">Mostra i report contenenti valori di priorità maggiore o uguale</string>
+    <string name="diario_label2">Tutti i report del mese</string>
+    <string name="diaario_label3">Report del </string>
     <string-array name="choiche_dialog">
         <item>Tutti</item>
         <item>Due</item>

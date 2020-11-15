@@ -39,6 +39,9 @@ public interface ReportDao {
     @Query("SELECT * FROM reports ORDER BY report_giorno DESC, report_ora DESC")
     LiveData<List<Report>> getAllReportsOrder();
 
+    @Query("SELECT * FROM reports WHERE :S")
+    LiveData<List<Report>> getFilterReports(String S);
+
     @Query("SELECT AVG(report_battito) FROM reports WHERE report_giorno=:date AND report_battito != 0")
     LiveData<Double> getAVGBattitoInDate(Date date);
 
@@ -74,5 +77,7 @@ public interface ReportDao {
 
     @Query("SELECT AVG(report_glicemia) AS media, report_giorno AS giorno FROM reports WHERE report_glicemia != 0 AND report_giorno>= :date1 AND report_giorno<=:date2 GROUP BY report_giorno ORDER BY report_giorno")
     LiveData<List<AVG>> getAVGGlicemiaInPeriod(Date date1, Date date2);
+
+
 
 }
