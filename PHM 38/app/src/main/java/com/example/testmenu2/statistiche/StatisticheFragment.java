@@ -29,16 +29,9 @@ import java.util.List;
 public class StatisticheFragment extends Fragment {
 
     private StatisticheViewModel statisticheViewModel;
-    private Button BTNsettimana, BTNmese, BTNanno, BTNtutti;
-    private TextView TXVPeriodo, TXVNumReport;
-    private static LiveData<List<Report>> mReports;
-    private static LiveData<List<AVG>> battitoAVG, pressioneSistolicaAVG, pressioneDiastolicaAVG, temperaturaAVG, glicemiaAVG;
-    private ReportViewModel reportViewModel;
+    private BarChart pressioneChart;
     private PieChart pieChart;
     private LineChart battitoChart, temperaturaChart, glicemiaChart;
-    private BarChart pressioneChart;
-    private List<AVG> pressioneSistolica, pressioneDiastolica;
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -46,14 +39,31 @@ public class StatisticheFragment extends Fragment {
                 new ViewModelProvider(this).get(StatisticheViewModel.class);
         View root = inflater.inflate(R.layout.fragment_statistiche, container, false);
 
-        BTNsettimana = root.findViewById(R.id.BTNsettimana);
-        BTNmese = root.findViewById(R.id.BTNmese);
-        BTNanno = root.findViewById(R.id.BTNanno);
-        BTNtutti = root.findViewById(R.id.BTNtutti);
-        TXVPeriodo = root.findViewById(R.id.TXVPeriodo_val);
-        TXVNumReport = root.findViewById(R.id.TXVNumeroReport_val);
+        //BOTTONI
+        Button BTNsettimana = root.findViewById(R.id.BTNsettimana);
+        Button BTNmese = root.findViewById(R.id.BTNmese);
+        Button BTNanno = root.findViewById(R.id.BTNanno);
+        Button BTNtutti = root.findViewById(R.id.BTNtutti);
 
-        reportViewModel = ViewModelProviders.of(this).get(ReportViewModel.class);
+        //ETICHETTE
+        TextView TXVPeriodo = root.findViewById(R.id.TXVPeriodo_val);
+        statisticheViewModel.getStringPeriodo().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                TXVPeriodo.setText(s);
+            }
+        });
+        TextView TXVNumReport = root.findViewById(R.id.TXVNumeroReport_val);
+        statisticheViewModel.getStringnumReport().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                TXVNumReport.setText(s);
+            }
+        });
+
+        statisticheViewModel.setReportViewModel(ViewModelProviders.of(this).get(ReportViewModel.class));
+        statisticheViewModel.setOwner(getViewLifecycleOwner());
+
         UpdateDate("Settimana");
 
 
@@ -94,108 +104,63 @@ public class StatisticheFragment extends Fragment {
         return root;
     }
 
+
     //DISEGNA IL GRAFICO A TORTA IN BASE AI DATI CONTENUTI NEI REPORT REGISTRATI TRA LE DUE DATE IN INPUT
-   private void UpdateDate(String periodo){
+    protected void UpdateDate(String periodo){
 
-        setChartData(periodo);
-
+        statisticheViewModel.setChartData(periodo);
 
         //MODIFICO E OSSERVO LA LISTA DI REPORT IN BASE ALLA QUERY EFFETTUATA
-        mReports.observe(getViewLifecycleOwner(),new Observer<List<Report>>() {
-           @Override
-           public void onChanged(List<Report> reports) {
-               //AGGIORNO L'ETICHETTA CHE CONTA I REPORT DEL PERIODO
-               TXVNumReport.setText(String.valueOf(reports.size()));
-
-               //DISEGNO IL GRAFICO A TORTA IN BASE ALLA LISTA DEI REPORT RICEVUTI
-               pieChart.setData(statisticheViewModel.getPieData(reports));
-               pieChart.setDescription(statisticheViewModel.getDescription(""));
-               pieChart.animateXY(1000, 1000);
-               //pieChart.invalidate();
-           }
-        });
-
-        battitoAVG.observe(getViewLifecycleOwner(), new Observer<List<AVG>>() {
+        statisticheViewModel.getmReports().observe(getViewLifecycleOwner(),new Observer<List<Report>>() {
             @Override
-            public void onChanged(List<AVG> avgs) {
-                setLineChart(battitoChart, avgs);
-                setBarChart();
+            public void onChanged(List<Report> reports) {
+                //AGGIORNO L'ETICHETTA CHE CONTA I REPORT DEL PERIODO
+                statisticheViewModel.setStringnumReport(String.valueOf(reports.size()));
+
+                //DISEGNO IL GRAFICO A TORTA IN BASE ALLA LISTA DEI REPORT RICEVUTI
+                pieChart.setData(statisticheViewModel.getPieData(reports));
+                pieChart.setDescription(statisticheViewModel.getDescription(""));
+                pieChart.animateXY(1000, 1000);
+                //pieChart.invalidate();
             }
         });
 
-       pressioneSistolicaAVG.observe(getViewLifecycleOwner(), new Observer<List<AVG>>() {
-           @Override
-           public void onChanged(List<AVG> avgs) {
-              pressioneSistolica = avgs;
-              setBarChart();
-           }
-       });
+        statisticheViewModel.getBattitoAVG().observe(getViewLifecycleOwner(), new Observer<List<AVG>>() {
+            @Override
+            public void onChanged(List<AVG> avgs) {
+                statisticheViewModel.setLineChart(battitoChart, avgs);
+            }
+        });
 
-       pressioneDiastolicaAVG.observe(getViewLifecycleOwner(), new Observer<List<AVG>>() {
-           @Override
-           public void onChanged(List<AVG> avgs) {
-               pressioneDiastolica = avgs;
-           }
-       });
+        statisticheViewModel.getPressioneSistolicaAVG().observe(getViewLifecycleOwner(), new Observer<List<AVG>>() {
+            @Override
+            public void onChanged(List<AVG> avgs) {
+                statisticheViewModel.setPressioneSistolica(avgs);
+                statisticheViewModel.setBarChart(pressioneChart);
+            }
+        });
 
-       temperaturaAVG.observe(getViewLifecycleOwner(), new Observer<List<AVG>>() {
-           @Override
-           public void onChanged(List<AVG> avgs) {
-               setLineChart(temperaturaChart, avgs);
-           }
-       });
+        statisticheViewModel.getPressioneDiastolicaAVG().observe(getViewLifecycleOwner(), new Observer<List<AVG>>() {
+            @Override
+            public void onChanged(List<AVG> avgs) {
+                statisticheViewModel.setPressioneDiastolica(avgs);
+                statisticheViewModel.setBarChart(pressioneChart);
+            }
+        });
 
-       glicemiaAVG.observe(getViewLifecycleOwner(), new Observer<List<AVG>>() {
-           @Override
-           public void onChanged(List<AVG> avgs) {
-               setLineChart(glicemiaChart, avgs);
-           }
-       });
-    }
+        statisticheViewModel.getTemperaturaAVG().observe(getViewLifecycleOwner(), new Observer<List<AVG>>() {
+            @Override
+            public void onChanged(List<AVG> avgs) {
+                statisticheViewModel.setLineChart(temperaturaChart, avgs);
+            }
+        });
 
-    private void setLineChart(LineChart lineChart, List<AVG> avgs){
-        lineChart.setData(statisticheViewModel.getLineData(avgs));
-        lineChart.setDescription(statisticheViewModel.getDescription(""));
-        lineChart.animateXY(1000, 1000);
-        lineChart.setTouchEnabled(true);
-        lineChart.setPinchZoom(true);
-    }
-
-    private void setBarChart(){
-        pressioneChart.setData(statisticheViewModel.getBarData(pressioneSistolica, pressioneDiastolica));
-        pressioneChart.setDescription(statisticheViewModel.getDescription(""));
-        pressioneChart.animateXY(1000, 1000);
-        pressioneChart.setTouchEnabled(true);
-        pressioneChart.setPinchZoom(true);
-    }
-
-    private void setChartData(String periodo){
-        statisticheViewModel.setPeriodo(periodo); //imposto le date del periodo
-        Date inizio = statisticheViewModel.getInizio(); //prendo le date del periodo
-        Date fine = statisticheViewModel.getFine();
-
-        //SE NON FORNISCO UN PERIODO ALLORA PRENDO TUTTI I REPORT SALVATI NEL DB
-        if (periodo == "Tutto"){
-            TXVPeriodo.setText(periodo);
-            mReports = reportViewModel.getAllReports();
-            battitoAVG = reportViewModel.getAVGAll("Battito");
-            pressioneSistolicaAVG = reportViewModel.getAVGAll("PressioneSistolica");
-            pressioneDiastolicaAVG = reportViewModel.getAVGAll("PressioneDiastolica");
-            temperaturaAVG = reportViewModel.getAVGAll("Temperatura");
-            glicemiaAVG = reportViewModel.getAVGAll("Glicemia");
-
-        }
-        //ALTRIMENTI PRENDO SOLO I REPORT DI QUEL DETERMINATO PERIODO
-        else {
-            TXVPeriodo.setText("Dal " + Converters.DateToString(inizio) + " al " + Converters.DateToString(fine));
-            mReports = reportViewModel.getAllReportsInPeriod(inizio, fine);
-            battitoAVG = reportViewModel.getAVGInPeriod("Battito", inizio, fine);
-            pressioneSistolicaAVG =  reportViewModel.getAVGInPeriod("PressioneSistolica", inizio, fine);
-            pressioneDiastolicaAVG =  reportViewModel.getAVGInPeriod("PressioneDiastolica", inizio, fine);
-            temperaturaAVG = reportViewModel.getAVGInPeriod("Temperatura", inizio, fine);
-            glicemiaAVG = reportViewModel.getAVGInPeriod("Glicemia", inizio, fine);
-
-        }
+        statisticheViewModel.getGlicemiaAVG().observe(getViewLifecycleOwner(), new Observer<List<AVG>>() {
+            @Override
+            public void onChanged(List<AVG> avgs) {
+                statisticheViewModel.setLineChart(glicemiaChart, avgs);
+            }
+        });
     }
 
 }
