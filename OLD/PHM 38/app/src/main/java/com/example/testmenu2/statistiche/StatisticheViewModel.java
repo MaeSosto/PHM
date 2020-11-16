@@ -3,11 +3,18 @@ package com.example.testmenu2.statistiche;
 import android.graphics.Color;
 import android.util.Log;
 
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.example.testmenu2.Database.AVG;
 import com.example.testmenu2.Database.Report;
+import com.example.testmenu2.Database.ReportViewModel;
 import com.example.testmenu2.Utilities.Converters;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -32,15 +39,68 @@ import java.util.List;
 public class StatisticheViewModel extends ViewModel {
 
     private SimpleDateFormat SDF;
-    private String periodo;
-    private ArrayList<Entry> BattitoVals;
     private Date inizio, fine;
+    private ReportViewModel reportViewModel;
+    private static LiveData<List<Report>> mReports;
+    private static LiveData<List<AVG>> battitoAVG, pressioneSistolicaAVG, pressioneDiastolicaAVG, temperaturaAVG, glicemiaAVG;
+    private List<AVG> pressioneSistolica, pressioneDiastolica;
+    private MutableLiveData<String> StringPeriodo, StringnumReport;
+    private LifecycleOwner owner;
 
     public StatisticheViewModel() {
         SDF = new SimpleDateFormat("dd/MM/yyyy");
         inizio = new Date();
         fine = new Date();
-        BattitoVals = new ArrayList<Entry>();
+        StringPeriodo = new MutableLiveData<>();
+        StringnumReport = new MutableLiveData<>();
+    }
+
+
+
+
+    protected void setLineChart(LineChart lineChart, List<AVG> avgs){
+        lineChart.setData(getLineData(avgs));
+        lineChart.setDescription(getDescription(""));
+        lineChart.animateXY(1000, 1000);
+        lineChart.setTouchEnabled(true);
+        lineChart.setPinchZoom(true);
+    }
+
+    protected void setBarChart(BarChart barChart){
+        barChart.setData(getBarData(pressioneSistolica, pressioneDiastolica));
+        barChart.setDescription(getDescription(""));
+        barChart.animateXY(1000, 1000);
+        barChart.setTouchEnabled(true);
+        barChart.setPinchZoom(true);
+    }
+
+    protected void setChartData(String periodo){
+        setPeriodo(periodo); //imposto le date del periodo
+        Date inizio = getInizio(); //prendo le date del periodo
+        Date fine = getFine();
+
+        //SE NON FORNISCO UN PERIODO ALLORA PRENDO TUTTI I REPORT SALVATI NEL DB
+        if (periodo == "Tutto"){
+            StringPeriodo.setValue(periodo);
+            mReports = reportViewModel.getAllReports();
+            battitoAVG = reportViewModel.getAVGAll("Battito");
+            pressioneSistolicaAVG = reportViewModel.getAVGAll("PressioneSistolica");
+            pressioneDiastolicaAVG = reportViewModel.getAVGAll("PressioneDiastolica");
+            temperaturaAVG = reportViewModel.getAVGAll("Temperatura");
+            glicemiaAVG = reportViewModel.getAVGAll("Glicemia");
+
+        }
+        //ALTRIMENTI PRENDO SOLO I REPORT DI QUEL DETERMINATO PERIODO
+        else {
+            StringPeriodo.setValue("Dal " + Converters.DateToString(inizio) + " al " + Converters.DateToString(fine));
+            mReports = reportViewModel.getAllReportsInPeriod(inizio, fine);
+            battitoAVG = reportViewModel.getAVGInPeriod("Battito", inizio, fine);
+            pressioneSistolicaAVG =  reportViewModel.getAVGInPeriod("PressioneSistolica", inizio, fine);
+            pressioneDiastolicaAVG =  reportViewModel.getAVGInPeriod("PressioneDiastolica", inizio, fine);
+            temperaturaAVG = reportViewModel.getAVGInPeriod("Temperatura", inizio, fine);
+            glicemiaAVG = reportViewModel.getAVGInPeriod("Glicemia", inizio, fine);
+
+        }
     }
 
     //MEMORIZZO LA DATA INIZIALE E FINALE DEL PERIODO - SE NULL ALLORA è TUTTO
@@ -63,7 +123,7 @@ public class StatisticheViewModel extends ViewModel {
 
     //Imposto il PieChart
     public PieData getPieData(List<Report> reports){
-        PieDataSet pieDataSet = new PieDataSet(setDataValues(reports), periodo);
+        PieDataSet pieDataSet = new PieDataSet(setDataValues(reports), StringPeriodo.getValue());
         pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         pieDataSet.setValueTextSize(12);
         pieDataSet.setValueTextColor(Color.BLACK);
@@ -111,11 +171,22 @@ public class StatisticheViewModel extends ViewModel {
         }
         else {
             Date start, end;
-            if(Converters.DateToLong(pressioneSistolica.get(i).getGiorno()) < Converters.DateToLong(pressioneDiastolica.get(k).getGiorno())) start = pressioneSistolica.get(i).getGiorno();
-            else start = pressioneDiastolica.get(k).getGiorno();
-            if(Converters.DateToLong(pressioneSistolica.get(pressioneSistolica.size()-1).getGiorno()) > Converters.DateToLong(pressioneDiastolica.get(pressioneDiastolica.size()-1).getGiorno())) end = pressioneSistolica.get(pressioneSistolica.size()-1).getGiorno();
-            else end = pressioneDiastolica.get(pressioneDiastolica.size()-1).getGiorno();
-
+            if(pressioneSistolica == null){
+                start = pressioneDiastolica.get(k).getGiorno();
+                end = pressioneDiastolica.get(pressioneDiastolica.size()-1).getGiorno();
+            }
+            else if(pressioneDiastolica == null){
+                start = pressioneSistolica.get(i).getGiorno();
+                end = pressioneSistolica.get(pressioneSistolica.size()-1).getGiorno();
+            }
+            else {
+                if (Converters.DateToLong(pressioneSistolica.get(i).getGiorno()) < Converters.DateToLong(pressioneDiastolica.get(k).getGiorno()))
+                    start = pressioneSistolica.get(i).getGiorno();
+                else start = pressioneDiastolica.get(k).getGiorno();
+                if (Converters.DateToLong(pressioneSistolica.get(pressioneSistolica.size() - 1).getGiorno()) > Converters.DateToLong(pressioneDiastolica.get(pressioneDiastolica.size() - 1).getGiorno()))
+                    end = pressioneSistolica.get(pressioneSistolica.size() - 1).getGiorno();
+                else end = pressioneDiastolica.get(pressioneDiastolica.size() - 1).getGiorno();
+            }
             calendarGiorno.setTime(start);
             calendarInizio.setTime(start);
             calendarFine.setTime(end);
@@ -123,7 +194,7 @@ public class StatisticheViewModel extends ViewModel {
         }
 
         while (!calendarInizio.equals(calendarFine)  ){
-            if(i<pressioneSistolica.size()) {
+            if(pressioneSistolica != null && i < pressioneSistolica.size()) {
                 AVG avgSis = pressioneSistolica.get(i);
                 calendarGiorno.setTime(avgSis.getGiorno());
                 if (calendarInizio.equals(calendarGiorno)) {
@@ -131,7 +202,7 @@ public class StatisticheViewModel extends ViewModel {
                     i++;
                 }
             }
-            if(k< pressioneDiastolica.size()) {
+            if(pressioneDiastolica != null && k < pressioneDiastolica.size()) {
                 AVG avgDia = pressioneDiastolica.get(k);
                 calendarGiorno.setTime(avgDia.getGiorno());
                 if (calendarInizio.equals(calendarGiorno)) {
@@ -158,7 +229,7 @@ public class StatisticheViewModel extends ViewModel {
 
     public LineData getLineData(List<AVG> avgs){
         LineDataSet lineDataSet = null;
-        lineDataSet = new LineDataSet(getLineDataValues(avgs), periodo);
+        lineDataSet = new LineDataSet(getLineDataValues(avgs), StringPeriodo.getValue());
 
         //lineDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         lineDataSet.setValueTextSize(12);
@@ -212,7 +283,7 @@ public class StatisticheViewModel extends ViewModel {
     public void setPeriodo(String periodo){
         //Log.i("setPeriodo: ", periodo);
 
-        this.periodo = periodo;
+        StringPeriodo.setValue(periodo);
         switch (periodo){
             case "Settimana": setDates(PrimoGiornoSettimana(), UltimoGiornoSettimana());
                 break;
@@ -272,5 +343,59 @@ public class StatisticheViewModel extends ViewModel {
         return giorno;
     }
 
+    public void setReportViewModel(ReportViewModel reportViewModel) {
+        this.reportViewModel = reportViewModel;
+    }
 
+    public static LiveData<List<Report>> getmReports() {
+        return mReports;
+    }
+
+    public static LiveData<List<AVG>> getBattitoAVG() {
+        return battitoAVG;
+    }
+
+    public static LiveData<List<AVG>> getPressioneSistolicaAVG() {
+        return pressioneSistolicaAVG;
+    }
+
+    public static LiveData<List<AVG>> getPressioneDiastolicaAVG() {
+        return pressioneDiastolicaAVG;
+    }
+
+    public static LiveData<List<AVG>> getTemperaturaAVG() {
+        return temperaturaAVG;
+    }
+
+    public static LiveData<List<AVG>> getGlicemiaAVG() {
+        return glicemiaAVG;
+    }
+
+    public void setPressioneSistolica(List<AVG> pressioneSistolica) {
+        this.pressioneSistolica = pressioneSistolica;
+    }
+
+    public void setPressioneDiastolica(List<AVG> pressioneDiastolica) {
+        this.pressioneDiastolica = pressioneDiastolica;
+    }
+
+    public MutableLiveData<String> getStringPeriodo() {
+        return StringPeriodo;
+    }
+
+    public MutableLiveData<String> getStringnumReport() {
+        return StringnumReport;
+    }
+
+    public void setStringnumReport(String stringnumReport) {
+        StringnumReport.setValue(stringnumReport);
+    }
+
+    public LifecycleOwner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(LifecycleOwner owner) {
+        this.owner = owner;
+    }
 }
