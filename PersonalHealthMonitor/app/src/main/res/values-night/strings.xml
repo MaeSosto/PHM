@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="statistiche_btn1">Settimana</string>
+    <string name="statistiche_btn2">Mese</string>
+    <string name="statistiche_btn3">Anno</string>
+    <string name="statistiche_label1">Periodo</string>
+    <string name="statistiche_label3">Informazioni sanitarie inserite</string>
+    <string name="prompt_impostazioni">Impostazioni</string>
+    <string name="newreprot_BTNsalva">Salva</string>
+</resources>

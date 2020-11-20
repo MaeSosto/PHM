@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="@string/settings_title1"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/prompt_battito"
+                    android:textSize="@dimen/normal_dimensions" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <SeekBar
+                        android:id="@+id/battito_seekbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="2"
+                        android:max="5"
+                        android:min="1"
+                        android:progress="2" />
+
+                    <TextView
+                        android:id="@+id/TXVbattito_seekbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="8"
+                        android:gravity="center"
+                        android:text="2"
+                        android:textSize="@dimen/normal_dimensions" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LLbattito"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:orientation="vertical"
+                    tools:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/settings_label1"
+                            android:textSize="@dimen/normal_dimensions" />
+
+                        <EditText
+                            android:id="@+id/ETbattito_limite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:inputType="number"
+                            android:text="80"
+                            android:textSize="@dimen/normal_dimensions" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_label2"
+                            android:textSize="@dimen/normal_dimensions" />
+
+                        <Button
+                            android:id="@+id/BTNbattito_data1"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/normal_dimensions" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_label3"
+                            android:textSize="@dimen/normal_dimensions" />
+
+                        <Button
+                            android:id="@+id/BTNbattito_data2"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/normal_dimensions" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/prompt_pressione_sistolica"
+                    android:textSize="@dimen/normal_dimensions" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <SeekBar
+                        android:id="@+id/pressioneSistolica_seekbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="2"
+                        android:max="5"
+                        android:min="1"
+                        android:progress="2" />
+
+                    <TextView
+                        android:id="@+id/TXVpressioneSistolica_seekbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="8"
+                        android:gravity="center"
+                        android:textSize="@dimen/normal_dimensions" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LLpressioneSistolica"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:orientation="vertical"
+                    tools:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/settings_label1"
+                            android:textSize="@dimen/normal_dimensions" />
+
+                        <EditText
+                            android:id="@+id/ETpressioneSistolica_limite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:inputType="number"
+                            android:text="80"
+                            android:textSize="@dimen/normal_dimensions" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_label2"
+                            android:textSize="@dimen/normal_dimensions" />
+
+                        <Button
+                            android:id="@+id/BTNpressioneSistolica_data1"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/normal_dimensions" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_label3"
+                            android:textSize="@dimen/normal_dimensions" />
+
+                        <Button
+                            android:id="@+id/BTNpressioneSistolica_data2"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/normal_dimensions" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:text="@string/prompt_pressione_diastolica" android:textSize="@dimen/normal_dimensions" />
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <SeekBar android:id="@+id/pressioneDiastolica_seekbar" android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:layout_weight="2" android:layout_margin="5dp"
+                        android:progress="2" android:min="1" android:max="5" />
+
+                    <TextView android:id="@+id/TXVpressioneDiastolica_seekbar" android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:gravity="center" android:layout_weight="8"
+                        android:textSize="@dimen/normal_dimensions" />
+                </LinearLayout>
+
+                <LinearLayout android:id="@+id/LLpressioneDiastolica" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:orientation="vertical" android:gravity="left">
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView android:layout_width="wrap_content" android:layout_height="match_parent" android:gravity="center"
+                            android:text="@string/settings_label1" android:textSize="@dimen/normal_dimensions" />
+
+                        <EditText android:id="@+id/ETpressioneDiastolica_limite" android:layout_width="wrap_content"
+                            android:layout_height="match_parent" android:inputType="number" android:text="80"
+                            android:textSize="@dimen/normal_dimensions" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/settings_label2" android:textSize="@dimen/normal_dimensions" />
+
+                        <Button android:id="@+id/BTNpressioneDiastolica_data1"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:textSize="@dimen/normal_dimensions" />
+
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/settings_label3" android:textSize="@dimen/normal_dimensions" />
+
+                        <Button android:id="@+id/BTNpressioneDiastolica_data2"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:textSize="@dimen/normal_dimensions" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:text="@string/prompt_temperatura" android:textSize="@dimen/normal_dimensions" />
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <SeekBar android:id="@+id/temperatura_seekbar" android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:layout_weight="2" android:layout_margin="5dp"
+                        android:progress="2" android:min="1" android:max="5" />
+
+                    <TextView android:id="@+id/TXVtemperatura_seekbar" android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:gravity="center" android:layout_weight="8"
+                        android:textSize="@dimen/normal_dimensions" />
+                </LinearLayout>
+
+                <LinearLayout android:id="@+id/LLtemperatura" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:orientation="vertical" android:gravity="left">
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView android:layout_width="wrap_content" android:layout_height="match_parent" android:gravity="center"
+                            android:text="@string/settings_label1" android:textSize="@dimen/normal_dimensions" />
+
+                        <EditText android:id="@+id/ETtemperatura_limite" android:layout_width="wrap_content"
+                            android:layout_height="match_parent" android:inputType="number" android:text="80"
+                            android:textSize="@dimen/normal_dimensions" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/settings_label2" android:textSize="@dimen/normal_dimensions" />
+
+                        <Button android:id="@+id/BTNtemperatura_data1"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:textSize="@dimen/normal_dimensions" />
+
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/settings_label3" android:textSize="@dimen/normal_dimensions" />
+
+                        <Button android:id="@+id/BTNtemperatura_data2"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:textSize="@dimen/normal_dimensions" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:text="@string/prompt_glicemia" android:textSize="@dimen/normal_dimensions" />
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <SeekBar android:id="@+id/glicemia_seekbar" android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:layout_weight="2" android:layout_margin="5dp"
+                        android:progress="2" android:min="1" android:max="5" />
+
+                    <TextView android:id="@+id/TXVglicemia_seekbar" android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:gravity="center" android:layout_weight="8"
+                        android:textSize="@dimen/normal_dimensions" />
+                </LinearLayout>
+
+                <LinearLayout android:id="@+id/LLglicemia" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" tools:visibility="visible" android:gravity="left">
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView android:layout_width="wrap_content" android:layout_height="match_parent" android:gravity="center"
+                            android:text="@string/settings_label1" android:textSize="@dimen/normal_dimensions" />
+
+                        <EditText android:id="@+id/ETglicemia_limite" android:layout_width="wrap_content"
+                            android:layout_height="match_parent" android:inputType="number" android:text="80"
+                            android:textSize="@dimen/normal_dimensions" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/settings_label2" android:textSize="@dimen/normal_dimensions" />
+
+                        <Button android:id="@+id/BTNglicemia_data1" style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:textSize="@dimen/normal_dimensions" />
+
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="@string/settings_label3" android:textSize="@dimen/normal_dimensions" />
+
+                        <Button android:id="@+id/BTNglicemia_data2" style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:textSize="@dimen/normal_dimensions" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/settings_title2"
+                android:textSize="20sp" />
+
+            <Switch
+                android:id="@+id/notification_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Notifiche giornaliere"
+                android:textSize="@dimen/normal_dimensions" />
+
+            <LinearLayout
+                android:id="@+id/LLnotifiche"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:visibility="visible"
+                android:gravity="left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/settings_label4"
+                    android:textSize="@dimen/normal_dimensions" />
+
+                <Button android:id="@+id/BTNnotifica"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/normal_dimensions" />
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/BTNsave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:text="@string/settings_button" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
