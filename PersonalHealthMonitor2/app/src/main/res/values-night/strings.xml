@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="statistiche_btn1">Settimana</string>
+    <string name="statistiche_btn2">Mese</string>
+    <string name="statistiche_btn3">Anno</string>
+    <string name="statistiche_label1">Periodo</string>
+    <string name="statistiche_label3">Informazioni sanitarie inserite</string>
+    <string name="prompt_impostazioni">Impostazioni</string>
+    <string name="newreprot_BTNsalva">Salva</string>
+    <string name="newreport_BTNupdate">Aggiorna i dati</string>
+    <string name="newreport_title1">Aggiungi un nuovo report</string>
+    <string name="newreport_title2">Modifica report</string>
+    <string name="newreport_BTNnew">Invia dati</string>
+    <string name="newreport_BTN1">Aggiorna i dati</string>
+    <string name="newreport_error1">Il valore per i battiti non è valido</string>
+    <string name="newreport_error2">Il valore per la temperatura non è valido</string>
+    <string name="newreport_error3">Il valore per la pressione sistolica non è valido</string>
+    <string name="newreport_error4">Il valore per la pressione diastolica non è valido</string>
+    <string name="newreport_error5">Il valore per la glicemia non è valido</string>
+    <string name="newreport_error6">Il valore per la glicemia non è valido</string>
+    <string name="home_label1">\"Report del \"</string>
+    <string name="snackbar_label1">Report rimosso</string>
+    <string name="snackbar_label2">Cancella operazione</string>
+    <string name="diario_label3">\"Report del \"</string>
+</resources>
