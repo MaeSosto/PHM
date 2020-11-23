@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_bottom">60dp</dimen>
+    <dimen name="normal_font_dimensions">18sp</dimen>
+    <dimen name="title_font_dimensions">24sp</dimen>
+</resources>

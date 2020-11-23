@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Home.NewReportActivity"
+    android:transitionName="activity_trans">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+     android:layout_marginHorizontal="30dp">
+
+        <EditText
+            android:id="@+id/ETbattiti"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/prompt_battito"
+            android:inputType="numberDecimal"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/ETpressioneSistolica"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/prompt_pressione_sistolica"
+            android:inputType="numberDecimal"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/ETpressioneDiastolica"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:inputType="numberDecimal"
+            android:hint="@string/prompt_pressione_diastolica"/>
+
+        <EditText
+            android:id="@+id/ETtemperatura"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:inputType="numberDecimal"
+            android:hint="@string/prompt_temperatura"/>
+
+        <EditText
+            android:id="@+id/ETglicemiaMax"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:inputType="numberDecimal"
+            android:hint="@string/prompt_glicemia_max"/>
+
+        <EditText
+            android:id="@+id/ETglicemiaMin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:inputType="numberDecimal"
+            android:hint="@string/prompt_glicemia_min"/>
+
+        <EditText
+            android:id="@+id/ETnote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:hint="@string/prompt_note"
+            android:inputType="textLongMessage"/>
+
+        <Button
+            android:id="@+id/Btn_sendReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/newreprot_BTNsalva"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ETnote" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
