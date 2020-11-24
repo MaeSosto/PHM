@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">Personal Health Monitor</string>
+
+    <!--Stringhe del menu in basso-->
+    <string name="menu_title_home">Home</string>
+    <string name="menu_title_diario">Diario</string>
+    <string name="menu_title_statistiche">Statistiche</string>
+
+    <!-- Stringhe del fragment diario -->
+    <string name="diario_label1">Report del </string>
+    <string name="diario_btn1">Filtro</string>
+    <string name="diario_label2">Tutti i report del mese</string>
+
+    <!--Stringhe nel fragment home -->
+    <string name="prompt_battito">Battito cardiaco</string>
+    <string name="prompt_pressione">Pressione</string>
+    <string name="prompt_sistolica">Sistolica</string>
+    <string name="prompt_diastolica">Diastolica</string>
+    <string name="prompt_pressione_sistolica">Pressione sanguigna sistolica</string>
+    <string name="prompt_pressione_diastolica">Pressione sanguigna diastolica</string>
+    <string name="prompt_temperatura">Temperatura corporea</string>
+    <string name="prompt_glicemia">Glicemia</string>
+    <string name="prompt_glicemia_max">Indice glicemico massimo</string>
+    <string name="prompt_glicemia_min">Indice glicemico minimo</string>
+    <string name="prompt_max">Max</string>
+    <string name="prompt_min">Min</string>
+    <string name="prompt_note">Altre informazioni</string>
+    <string name="prompt_BTNNuovoReport">Aggiungi</string>
+    <string name="home_label1">"Report del "</string>
+
+    <!-- Stringhe del fragment delle statistiche -->
+    <string name="statistiche_btn1">Settimana</string>
+    <string name="statistiche_btn2">Mese</string>
+    <string name="statistiche_btn3">Anno</string>
+    <string name="statistiche_btn4">Tutti</string>
+    <string name="statistiche_label1">Periodo</string>
+    <string name="statistiche_label2">Numero di report aggiunti</string>
+    <string name="statistiche_label3">Informazioni sanitarie inserite</string>
+    <string name="prompt_impostazioni">Impostazioni</string>
+
+    <!-- Stringhe della activity dei settings -->
+    <string name="prompt_settings">Impostazioni</string>
+    <string name="settings_title1">Importanza informazioni sanitarie</string>
+    <string name="settings_label1">Monitora i valori al di sopra di</string>
+    <string name="settings_label2">Dal</string>
+    <string name="settings_label3">al</string>
+    <string name="settings_button">Salva le impostazioni</string>
+    <string name="settings_title2">Notifiche</string>
+    <string name="settings_label4">Orario notifica: </string>
+
+    <!-- Stringhe dell'activity del nuovo report-->
+    <string name="newreport_BTNupdate">Aggiorna i dati</string>
+    <string name="newreport_title1">Aggiungi un nuovo report</string>
+    <string name="newreport_title2">Modifica report</string>
+    <string name="newreport_BTNnew">Invia dati</string>
+    <string name="newreport_BTN1">Aggiorna i dati</string>
+    <string name="newreport_BTN2">Invia dati</string>
+    <string name="newreport_error1">Il valore per i battiti non è valido</string>
+    <string name="newreport_error2">Il valore per la temperatura non è valido</string>
+    <string name="newreport_error3">Il valore per la pressione sistolica non è valido</string>
+    <string name="newreport_error4">Il valore per la pressione diastolica non è valido</string>
+    <string name="newreport_error5">Il valore per la glicemia non è valido</string>
+    <string name="newreport_error6">Il valore per la glicemia non è valido</string>
+
+    <!-- Stringhe della finestra del filtro -->
+    <string name="dialog_filtro">Mostra i report contenenti valori di priorità maggiore o uguale</string>
+    <string name="home_label3">Non ci sono report per questa data</string>
+    <string name="snackbar_label1">Report rimosso</string>
+    <string name="snackbar_label2">Cancella operazione</string>
+    <string name="diario_label3">Report del </string>
+    <string-array name="choiche_dialog">
+        <item>Tutti</item>
+        <item>Due</item>
+        <item>Tre</item>
+        <item>Quattro</item>
+        <item>Cinque</item>
+    </string-array>
+
+</resources>
