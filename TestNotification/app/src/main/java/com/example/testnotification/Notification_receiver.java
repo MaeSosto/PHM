@@ -21,20 +21,22 @@ public class Notification_receiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-
+        //INTENT NOTIFICA GIORNALIERA
         Intent intent_notification = new Intent(context, NewReportActivity.class);
         intent_notification.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent_notification, PendingIntent.FLAG_ONE_SHOT);
 
+        //INTENT BOTTONE1 NOTIFICA GIORNALIERA
         Intent IntentNuovoReport = new Intent(context, NewReportActivity.class);
         IntentNuovoReport.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntentNuovoReport = PendingIntent.getActivity(context, 0,IntentNuovoReport, PendingIntent.FLAG_ONE_SHOT);
 
+        //INTENT BOTTONE2 NOTIFICA GIORNALIERA
         Intent IntentRimanda = new Intent(context, Rimanda.class);
         IntentRimanda.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntentRimanda = PendingIntent.getActivity(context, 0,IntentRimanda, PendingIntent.FLAG_ONE_SHOT);
 
-
+        //NOTIFICA GIORNALIERA BUILDER
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID);
         builder.setSmallIcon(R.drawable.ic_baseline_calendar_today_24)
                 .setContentTitle("Non hai ancora aggiunto report oggi")
@@ -48,7 +50,7 @@ public class Notification_receiver extends BroadcastReceiver {
                 .addAction(R.drawable.ic_baseline_calendar_today_24, "Rimanda", pendingIntentRimanda);
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
-        notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+        //notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
         if (intent.getAction().equals("MY_NOTIFICATION_MESSAGE")) {
             notificationManagerCompat.notify(NOTIFICATION_ID,builder.build());
             Log.i("Notify", "Alarm"); //Optional, used for debuging.
