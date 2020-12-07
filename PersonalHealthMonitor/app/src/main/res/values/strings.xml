@@ -68,6 +68,8 @@
     <string name="diario_label3">Report del </string>
     <string name="statistiche_label4">Non ci sono report in questo periodo</string>
     <string name="rimanda_label1">"Verrai avvisato alle "</string>
+    <string name="duePunti">:</string>
+    <string name="home_BTNfiltro">Filtro</string>
     <string-array name="choiche_dialog">
         <item>Tutti</item>
         <item>Due</item>

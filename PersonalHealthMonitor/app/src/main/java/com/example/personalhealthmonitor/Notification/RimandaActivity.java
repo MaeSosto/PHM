@@ -1,18 +1,13 @@
 package com.example.personalhealthmonitor.Notification;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.NotificationManager;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-
+import androidx.appcompat.app.AppCompatActivity;
 import com.example.personalhealthmonitor.R;
-
 import java.util.Calendar;
-
-import static com.example.personalhealthmonitor.Notification.Alarm.NOTIFICATION_ID;
+import static com.example.personalhealthmonitor.Utilities.Utility.NOTIFICATION_ID;
 
 public class RimandaActivity extends AppCompatActivity {
 
@@ -23,26 +18,20 @@ public class RimandaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rimanda);
-
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.cancel(NOTIFICATION_ID);
-
         showTimePickerDialog();
     }
 
+    //MOSTRA L'OROLOGIO
     private void showTimePickerDialog(){
         TimePickerDialog timePickerDialog = new TimePickerDialog(
                 this, (view, hourOfDay, minute) -> {
             timeHour = hourOfDay;
             timeMinute = minute;
             Button btn = findViewById(R.id.button);
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-            btn.setText(getString(R.string.rimanda_label1)+ String.valueOf(timeHour)+ ":"+ String.valueOf(timeMinute));
+            btn.setOnClickListener(v -> finish());
+            btn.setText(getString(R.string.rimanda_label1)+ timeHour + getString(R.string.duePunti)+ timeMinute);
             Calendar alarmClock = Calendar.getInstance();
             alarmClock.set(Calendar.HOUR_OF_DAY, timeHour);
             alarmClock.set(Calendar.MINUTE, timeMinute);

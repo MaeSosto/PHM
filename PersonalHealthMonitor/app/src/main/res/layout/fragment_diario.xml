@@ -24,9 +24,9 @@
             <com.applandeo.materialcalendarview.CalendarView
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
-                app:headerColor="@color/ARANCIONE"
-                app:todayLabelColor="@color/ARANCIONE"
-                android:background="@color/GIALLOCHIARO"
+                app:headerColor="@color/persian_plum"
+                app:todayLabelColor="@color/persian_plum"
+                android:background="@color/baby_powder"
                 android:layout_height="400dp">
 
             </com.applandeo.materialcalendarview.CalendarView>
@@ -59,8 +59,7 @@
                         android:layout_marginHorizontal="8dp"
                         android:text="@string/diario_btn1"
                         android:textAlignment="textEnd"
-                        app:icon="@drawable/ic_baseline_filter_alt_24"
-                        app:iconTint="@color/SCURO">
+                        app:icon="@drawable/ic_baseline_filter_alt_24">
                     </Button>
                 </LinearLayout>
             </LinearLayout>
@@ -86,7 +85,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:background="@color/GIALLOCHIARO"
+                        android:background="@color/baby_powder"
                         android:text="@string/home_label3"
                         android:textSize="@dimen/title2_font_dimensions" />
 
@@ -96,7 +95,7 @@
                     android:id="@+id/recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/VIOLA"
+                    android:background="@color/outer_space_crayola"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

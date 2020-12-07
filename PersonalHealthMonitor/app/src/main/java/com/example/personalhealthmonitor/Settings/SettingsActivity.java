@@ -1,18 +1,10 @@
 package com.example.personalhealthmonitor.Settings;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -22,30 +14,15 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.personalhealthmonitor.Database.Notification;
 import com.example.personalhealthmonitor.Database.Settings;
-import com.example.personalhealthmonitor.Notification.Alarm;
-import com.example.personalhealthmonitor.Notification.Notification_receiver;
 import com.example.personalhealthmonitor.R;
 import com.example.personalhealthmonitor.Utilities.Converters;
-
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import static com.example.personalhealthmonitor.MainActivity.KEY_BATTITO;
-import static com.example.personalhealthmonitor.MainActivity.KEY_GLICEMIAMAX;
-import static com.example.personalhealthmonitor.MainActivity.KEY_GLICEMIAMIN;
-import static com.example.personalhealthmonitor.MainActivity.KEY_PRESSIONEDIA;
-import static com.example.personalhealthmonitor.MainActivity.KEY_PRESSIONESIS;
-import static com.example.personalhealthmonitor.MainActivity.KEY_TEMPERATURA;
-import static com.example.personalhealthmonitor.MainActivity.SDF;
-import static com.example.personalhealthmonitor.MainActivity.notificationViewModel;
-import static com.example.personalhealthmonitor.MainActivity.reportViewModel;
-import static com.example.personalhealthmonitor.MainActivity.settingsViewModel;
+import static com.example.personalhealthmonitor.Utilities.Utility.*;
 
 public class SettingsActivity extends AppCompatActivity implements  DatePickerDialog.OnDateSetListener{
 
@@ -63,8 +40,6 @@ public class SettingsActivity extends AppCompatActivity implements  DatePickerDi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
-
         //Collego la viewmodel alla view
         setViewModel();;
 
@@ -172,6 +147,7 @@ public class SettingsActivity extends AppCompatActivity implements  DatePickerDi
         BTNglicemiamin_data2.setOnClickListener(v -> showDatePickerDialog(BTNglicemiamin_data2));
     }
 
+    //MOSTRA IL POPUP PER SELEZIONARE LA DATA
     private void showDatePickerDialog(Button button){
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this, (view, year, month, dayOfMonth) -> {
@@ -183,6 +159,7 @@ public class SettingsActivity extends AppCompatActivity implements  DatePickerDi
         datePickerDialog.show();
     }
 
+    //MOSTRA IL POPUP PER SELEZIONARE L'ORA
     private void showTimePickerDialog(Button button){
         TimePickerDialog timePickerDialog = new TimePickerDialog(
                 this, (view, hourOfDay, minute) -> {
@@ -194,6 +171,7 @@ public class SettingsActivity extends AppCompatActivity implements  DatePickerDi
         );
         timePickerDialog.show();
     }
+    //SETTA IL VALORE SCRITTO SUI BOTTONI E NELLE ETICHETTE IN BASE A COME CAMBIA LO SLIDER DEL VALORE
     private void showRange(Settings settings, TextView textView, int val, LinearLayout linearLayout, Button button1, Button button2) {
         textView.setText(String.valueOf(val));
         settings.setImportanza(val);
@@ -253,6 +231,7 @@ public class SettingsActivity extends AppCompatActivity implements  DatePickerDi
         return true;
     }
 
+    //SALVA I SETTINGS
     private void saveSettings(){
         boolean ok = true;
         if(notification_switch.isChecked()){

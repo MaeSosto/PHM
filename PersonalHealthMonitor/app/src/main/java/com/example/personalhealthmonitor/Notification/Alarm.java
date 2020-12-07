@@ -10,29 +10,14 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
-
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
-
-import com.example.personalhealthmonitor.Database.Notification;
-import com.example.personalhealthmonitor.Database.Report;
 import com.example.personalhealthmonitor.Database.Settings;
 import com.example.personalhealthmonitor.Utilities.Converters;
 import com.example.personalhealthmonitor.Utilities.Utility;
 import java.util.Calendar;
-import java.util.List;
-import static com.example.personalhealthmonitor.MainActivity.KEY_REPORT_DAILY;
-import static com.example.personalhealthmonitor.MainActivity.KEY_RIMANDA;
-import static com.example.personalhealthmonitor.MainActivity.KEY_WARNING;
-import static com.example.personalhealthmonitor.MainActivity.SDF;
-import static com.example.personalhealthmonitor.MainActivity.notificationViewModel;
-import static com.example.personalhealthmonitor.MainActivity.reportViewModel;
-import static com.example.personalhealthmonitor.MainActivity.settingsViewModel;
-import static com.example.personalhealthmonitor.Utilities.Utility.tronca;
+import static com.example.personalhealthmonitor.Utilities.Utility.*;
 
 public class Alarm extends Service {
-    public static final String CHANNEL_ID = "Daily_notification";
-    public static final int NOTIFICATION_ID = 1;
     private static AlarmManager alarmManagerReportDaily;
     private AlarmManager alarmManagerReportWarning;
     private static PendingIntent pendingIntentReportDaily;
@@ -88,7 +73,7 @@ public class Alarm extends Service {
     }
 
     //CONTROLLA SE OGGI SONO STATI AGGIUNTI REPORT: SE NON SONO STATI AGGIUNTI OGGI ALLORA INVIA LA NOTIFICA OGGI, ALTRIMENTI LA INVIA DOMANI
-    private class checkTodayReports extends AsyncTask <Integer, Void, Void>{
+    private static class checkTodayReports extends AsyncTask <Integer, Void, Void>{
 
         @Override
         protected Void doInBackground(Integer... integers) {
@@ -139,11 +124,10 @@ public class Alarm extends Service {
         @Override
         protected String doInBackground(Settings... settings) {
             WarningString ="";
-            for(int i = 0; i < settings.length; i++){
-                Settings mSettings = settings[i];
+            for (Settings mSettings : settings) {
                 Double avg = reportViewModel.getAvgVal(mSettings.getValore(), mSettings.getInizio(), mSettings.getFine());
-                if(avg != null && avg > mSettings.getLimite()){
-                    WarningString = WarningString + Utility.KeyToPrompt(mSettings.getValore())+ ": "+ tronca(avg)+"/"+ mSettings.getLimite()+ " tra il "+ Converters.DateToString(mSettings.getInizio())+ " e il "+Converters.DateToString(mSettings.getFine())+"\n";
+                if (avg != null && avg > mSettings.getLimite()) {
+                    WarningString += Utility.KeyToPrompt(mSettings.getValore()) + ": " + tronca(avg) + "/" + mSettings.getLimite() + " tra il " + Converters.DateToString(mSettings.getInizio()) + " e il " + Converters.DateToString(mSettings.getFine()) + "\n";
                     //Log.i("WARNING STRING", WarningString);
                 }
             }
@@ -175,11 +159,13 @@ public class Alarm extends Service {
         return WarningString;
     }
 
+    //SETTA LA PROSSIMA NOTIFICA RIMANDATA
     public static void RimandaON(Calendar alarmClock){
         Log.i("RIMANDA ALARM", Converters.DateToString(alarmClock.getTime())+ " alle "+ alarmClock.getTime().getHours()+":"+ alarmClock.getTime().getMinutes());
         alarmManagerRimanda.setRepeating(android.app.AlarmManager.RTC_WAKEUP, alarmClock.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntentRimanda);
     }
 
+    //SETTA LA PROSSIMA NOTIFICA RIMANDATA COME SPENTA
     public static void RimandaOFF(){
         alarmManagerRimanda.cancel(pendingIntentRimanda);
     }

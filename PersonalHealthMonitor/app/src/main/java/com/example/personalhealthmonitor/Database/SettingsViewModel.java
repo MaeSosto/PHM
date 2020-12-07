@@ -5,23 +5,18 @@ import android.os.AsyncTask;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.sqlite.db.SimpleSQLiteQuery;
-
 import java.util.List;
-
-import static com.example.personalhealthmonitor.MainActivity.KEY_NOTIFICATION;
 
 public class SettingsViewModel extends AndroidViewModel {
 
-    private SettingsDao settingsDao;
-    private DB settingsDB;
-    private LiveData<List<Settings>> mAllSettings;
+    private final SettingsDao settingsDao;
+    private final DB settingsDB;
 
     public SettingsViewModel(Application application){
         super(application);
 
         settingsDB = DB.getDatabase(application);
         settingsDao = settingsDB.settingsDao();
-        mAllSettings = settingsDao.getAllSetting();
     }
 
     public void insertSettings(Settings Settings){
@@ -48,7 +43,7 @@ public class SettingsViewModel extends AndroidViewModel {
 
 
     //OPERAZIONI ASYNC
-    private class OperationAsyncTask extends AsyncTask<Settings, Void, Void> {
+    private static class OperationAsyncTask extends AsyncTask<Settings, Void, Void> {
 
         SettingsDao AsyncTaskDao;
 
@@ -63,7 +58,7 @@ public class SettingsViewModel extends AndroidViewModel {
     }
 
     //OPERAZIONE DI INSERIMENTO
-    private class InsertAsyncTask extends OperationAsyncTask{
+    private static class InsertAsyncTask extends OperationAsyncTask{
 
         public InsertAsyncTask(SettingsDao SettingsDao) {
             super(SettingsDao);

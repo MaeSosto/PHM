@@ -4,11 +4,6 @@ import android.app.Application;
 import android.os.AsyncTask;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.sqlite.db.SimpleSQLiteQuery;
-
-import java.util.List;
-
-import static com.example.personalhealthmonitor.MainActivity.KEY_NOTIFICATION;
 
 public class NotificationViewModel extends AndroidViewModel {
 
@@ -41,7 +36,7 @@ public class NotificationViewModel extends AndroidViewModel {
     }
 
     //OPERAZIONI ASYNC
-    private class OperationAsyncTask extends AsyncTask<Notification, Void, Void> {
+    private static class OperationAsyncTask extends AsyncTask<Notification, Void, Void> {
 
         NotificationDao AsyncTaskDao;
 
@@ -56,7 +51,7 @@ public class NotificationViewModel extends AndroidViewModel {
     }
 
     //OPERAZIONE DI INSERIMENTO
-    private class InsertAsyncTask extends OperationAsyncTask{
+    private static class InsertAsyncTask extends OperationAsyncTask{
 
         public InsertAsyncTask(NotificationDao NotificationDao) {
             super(NotificationDao);

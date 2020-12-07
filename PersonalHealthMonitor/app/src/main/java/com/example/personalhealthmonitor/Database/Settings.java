@@ -13,7 +13,7 @@ public class Settings {
     private int id;
 
     @ColumnInfo(name = "settings_valore")
-    private String valore;
+    private final String valore;
 
     @ColumnInfo(name = "settings_importanza")
     private int importanza;
@@ -46,10 +46,6 @@ public class Settings {
 
     public String getValore() {
         return valore;
-    }
-
-    public void setValore(String valore) {
-        this.valore = valore;
     }
 
     public int getImportanza() {

@@ -1,37 +1,17 @@
 package com.example.personalhealthmonitor.Notification;
 
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.lifecycle.Observer;
-
 import com.example.personalhealthmonitor.Home.HomeFragment;
 import com.example.personalhealthmonitor.Home.NewReportActivity;
 import com.example.personalhealthmonitor.R;
 import com.example.personalhealthmonitor.Statistiche.StatisticheFragment;
-import com.example.personalhealthmonitor.Utilities.Converters;
-
-import java.util.Calendar;
-
-import static com.example.personalhealthmonitor.MainActivity.KEY_REPORT_DAILY;
-import static com.example.personalhealthmonitor.MainActivity.KEY_RIMANDA;
-import static com.example.personalhealthmonitor.MainActivity.KEY_WARNING;
-import static com.example.personalhealthmonitor.MainActivity.SDF;
-import static com.example.personalhealthmonitor.MainActivity.reportViewModel;
-import static com.example.personalhealthmonitor.Notification.Alarm.CHANNEL_ID;
-import static com.example.personalhealthmonitor.Notification.Alarm.NOTIFICATION_ID;
+import static com.example.personalhealthmonitor.Utilities.Utility.*;
 
 public class Notification_receiver extends BroadcastReceiver {
 
@@ -41,15 +21,17 @@ public class Notification_receiver extends BroadcastReceiver {
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
 
         //Log.i("INTENT", intent.getAction());
-
+        //NOTIFICA GIORNALIERA
         if (intent.getAction().equals(KEY_REPORT_DAILY)) {
             notificationManagerCompat.notify(NOTIFICATION_ID, sendDailyNotification(context).build());
             Log.i("Notify", "Report Daily Alarm");
         }
+        //NOTIFICA DI ALLARME
        if (intent.getAction().equals(KEY_WARNING)) {
            notificationManagerCompat.notify(NOTIFICATION_ID, sendWarningNotification(context).build());
            Log.i("Notify", "Report Warning Alarm");
        }
+       //NOTIFICA RIMANDATA
        if(intent.getAction().equals(KEY_RIMANDA)){
            notificationManagerCompat.notify(NOTIFICATION_ID, sendDailyNotification(context).build());
            Log.i("Notify", "Report Rimanda");
@@ -57,6 +39,7 @@ public class Notification_receiver extends BroadcastReceiver {
        }
     }
 
+    //CREA LA NOTIFICA DI ALLARME
     private NotificationCompat.Builder sendWarningNotification(Context mContext) {
         //INTENT NOTIFICA WARNING
         Intent intent_notification = new Intent(mContext, StatisticheFragment.class);
@@ -77,6 +60,7 @@ public class Notification_receiver extends BroadcastReceiver {
         return builder;
     }
 
+    //CREA LA NOTIFICA GIORNALIERA O QUELLA CHE DEVE ESSEERE RIMANDATA
     private NotificationCompat.Builder sendDailyNotification(Context mContext){
         //INTENT NOTIFICA GIORNALIERA
         Intent intent_notification = new Intent(mContext, HomeFragment.class);

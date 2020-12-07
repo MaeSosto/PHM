@@ -2,7 +2,9 @@ package com.example.personalhealthmonitor.Utilities;
 
 import android.view.View;
 import com.example.personalhealthmonitor.Database.Report;
-import static com.example.personalhealthmonitor.MainActivity.reportViewModel;
+
+import static com.example.personalhealthmonitor.Utilities.Utility.reportViewModel;
+
 
 public class SnackbarUndo implements View.OnClickListener {
 

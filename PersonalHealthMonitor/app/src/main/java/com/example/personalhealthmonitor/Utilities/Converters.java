@@ -2,12 +2,10 @@ package com.example.personalhealthmonitor.Utilities;
 
 import androidx.room.TypeConverter;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.example.personalhealthmonitor.MainActivity.SDF;
+import static com.example.personalhealthmonitor.Utilities.Utility.SDF;
 
 public class Converters {
     @TypeConverter
@@ -33,5 +31,4 @@ public class Converters {
         }
         return date;
     }
-
 }

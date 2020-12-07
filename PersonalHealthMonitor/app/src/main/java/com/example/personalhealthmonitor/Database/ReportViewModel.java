@@ -3,25 +3,17 @@ package com.example.personalhealthmonitor.Database;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.sqlite.db.SimpleSQLiteQuery;
-
-
 import com.example.personalhealthmonitor.Utilities.Converters;
-
 import java.util.Date;
 import java.util.List;
-import java.util.ListIterator;
-
-import static com.example.personalhealthmonitor.MainActivity.KEY_NOTIFICATION;
-import static com.example.personalhealthmonitor.MainActivity.settingsViewModel;
 
 public class ReportViewModel extends AndroidViewModel {
 
-    private ReportDao reportDao;
-    private DB reportDB;
+    private final ReportDao reportDao;
+    private final DB reportDB;
 
     public ReportViewModel(Application application){
         super(application);
@@ -45,6 +37,7 @@ public class ReportViewModel extends AndroidViewModel {
         return reportDao.getReport(reportId);
     }
 
+    //RESTITUISCE TUTTI I REPORT/ I REPORT IN UN GIORNO SPECIFICO O IN UN PERIODO SPECIFICO
     public LiveData<List<Report>> getAllReports(Date inizio, Date fine ){
         String query = "SELECT * FROM reports ";
         //prendo tutti i report
@@ -56,6 +49,7 @@ public class ReportViewModel extends AndroidViewModel {
         return null;
     }
 
+    //RESTITUISCE LA MEDIA DI UN VALORE GENERALE/ IN UN GIORNO/ IN UN PERIODO SPECIFICO
     public Double getAvgVal(String val, Date inizio, Date fine){
         String query = "SELECT AVG("+ val +") FROM reports";
         //prendo la media di un singolo valore in un periodo
@@ -71,12 +65,7 @@ public class ReportViewModel extends AndroidViewModel {
         return null;
     }
 
-    public LiveData<Integer> getCountInDay(Date date){
-        String query = "SELECT COUNT(*) FROM reports WHERE report_giorno = "+ Converters.DateToLong(date);
-        //Log.i("QUERY", query);
-        return reportDao.getCOUNTLDVal(new SimpleSQLiteQuery(query));
-    }
-
+    //CONTA I REPORT GENERALI/IN UN GIORNO/ IN UN PERIODO/ O CHE ABBIANO UN VALORE DIVERSO DA 0
     public Integer getCOUNTVal(String value1, String value2, Date inizio, Date fine) {
         String query = "SELECT COUNT(*) FROM reports ";
         //Log.i("Query", "Sono nel viewmodel");
@@ -106,14 +95,17 @@ public class ReportViewModel extends AndroidViewModel {
         return 0;
     }
 
+    //RESSTITUISCE IL REPORT PIU RECENTE O PIU VECCHIO (SE STRINGA = MAX ALLORA IL PIU RECENTE, SE = MIN IL PIU VECCHIO) SE VAL != 0 ALLORA CONTROLLA CHE UN VALORE SIA DIVERSO DA 0
     public Date getMinMaxDateReport(String max, String val){
         String query = "SELECT "+ max +"(report_giorno) from reports" ;
         if(val != null) return reportDao.getMinMaxDateReport(new SimpleSQLiteQuery(query +" WHERE "+ val+ " != 0"));
         else return reportDao.getMinMaxDateReport(new SimpleSQLiteQuery(query));
     }
 
+    //RESTITUISCE TUTTI I REPORT CON I VALORI INERENTI AL FILTRO/ PRENDE TUTTI I REPORT/IN UN GIORNO/ IN UN PERIODO
     public LiveData<List<Report>> getFilterReports(Date inizio, Date fine, List<Settings> settings){
         String query = "SELECT * FROM reports ";
+        String query_final = " ORDER BY report_giorno DESC, report_ora DESC";
         String filter = "";
         if(settings.size() > 0){
             filter = " AND ( ";
@@ -128,16 +120,19 @@ public class ReportViewModel extends AndroidViewModel {
         }
         else return reportDao.emptyReportList();
         //prendo tutti i report
-        if(inizio == null && fine == null) return reportDao.getAllReports(new SimpleSQLiteQuery(query));
+        if(inizio == null && fine == null) return reportDao.getAllReports(new SimpleSQLiteQuery(query + query_final));
         //prendo i report di un periodo specifico
-        if(inizio != null && fine != null) return reportDao.getAllReports(new SimpleSQLiteQuery(query+ "WHERE report_giorno >= "+ Converters.DateToLong(inizio)+ " AND report_giorno <= "+ Converters.DateToLong(fine) + filter));
+        if(inizio != null && fine != null) return reportDao.getAllReports(new SimpleSQLiteQuery(query+ "WHERE report_giorno >= "+ Converters.DateToLong(inizio)+ " AND report_giorno <= "+ Converters.DateToLong(fine) + filter + query_final));
         //prendo i report di un giorno specifico
-        if(inizio != null) return reportDao.getAllReports(new SimpleSQLiteQuery(query+ "WHERE report_giorno = "+ Converters.DateToLong(inizio)+ filter));
+        if(inizio != null){
+            Log.i("QUERY", query+"WHERE report_giorno = "+ Converters.DateToLong(inizio)+ filter);
+            return reportDao.getAllReports(new SimpleSQLiteQuery(query+ "WHERE report_giorno = "+ Converters.DateToLong(inizio)+ filter + query_final));
+        }
         return null;
     }
 
     //OPERAZIONI ASYNC
-    private class OperationAsyncTask extends AsyncTask<Report, Void, Void> {
+    private static class OperationAsyncTask extends AsyncTask<Report, Void, Void> {
 
         ReportDao AsyncTaskDao;
 
@@ -152,7 +147,7 @@ public class ReportViewModel extends AndroidViewModel {
     }
 
     //OPERAZIONE DI INSERIMENTO
-    private class InsertAsyncTask extends OperationAsyncTask{
+    private static class InsertAsyncTask extends OperationAsyncTask{
 
         public InsertAsyncTask(ReportDao reportDao) {
             super(reportDao);
@@ -166,7 +161,7 @@ public class ReportViewModel extends AndroidViewModel {
     }
 
     //OPERAZIONE DI MODIFICA
-    private class UpdateAsyncTask extends AsyncTask<Report, Void, Void> {
+    private static class UpdateAsyncTask extends AsyncTask<Report, Void, Void> {
 
         ReportDao mreportDao;
 
@@ -181,7 +176,7 @@ public class ReportViewModel extends AndroidViewModel {
         }
     }
 
-    private class DeleteAsyncTask extends AsyncTask<Report, Void, Void> {
+    private static class DeleteAsyncTask extends AsyncTask<Report, Void, Void> {
         ReportDao mreportDao;
 
         public DeleteAsyncTask(ReportDao reportDao) {
@@ -193,45 +188,6 @@ public class ReportViewModel extends AndroidViewModel {
         protected Void doInBackground(Report... reports) {
             mreportDao.deleteReport(reports[0]);
             return null;
-        }
-    }
-
-    private class CountAsyncTask extends AsyncTask<Report, Void, Integer> {
-
-        String value;
-        Date inizio;
-        Date fine;
-
-        public CountAsyncTask(String value, Date inizio, Date fine) {
-            this.value = value;
-            this.inizio = inizio;
-            this.fine = fine;
-        }
-
-        @Override
-        protected Integer doInBackground(Report... reports) {
-            String query = "SELECT COUNT(*) FROM reports ";
-            if(value == null) {
-                //Conta tutti i report
-                if (inizio == null && fine == null) {
-                    return reportDao.getCOUNTVal(new SimpleSQLiteQuery(query));
-
-                }
-                //conto i report in un periodo
-                if (inizio != null && fine != null)
-                    return reportDao.getCOUNTVal(new SimpleSQLiteQuery(query + " WHERE report_giorno >= " + Converters.DateToLong(inizio) + " AND report_giorno <= " + Converters.DateToLong(fine)));
-            }
-            else {
-                query = query+ "WHERE "+ value+ " != 0 ";
-                if (inizio == null && fine == null)
-                    return reportDao.getCOUNTVal(new SimpleSQLiteQuery(query));
-                //conto i report in un periodo
-                if (inizio != null && fine != null)
-                    return reportDao.getCOUNTVal(new SimpleSQLiteQuery(query + " AND report_giorno >= " + Converters.DateToLong(inizio) + " AND report_giorno <= " + Converters.DateToLong(fine)));
-            }
-            //prendo le medie di un singolo valore in un singolo giorno
-            //else if(inizio != null)  return reportDao.getCOUNTVal(new SimpleSQLiteQuery(query + " WHERE " + val + " != 0 AND report_giorno = "+Converters.DateToLong(inizio)));
-            return 0;
         }
     }
 }

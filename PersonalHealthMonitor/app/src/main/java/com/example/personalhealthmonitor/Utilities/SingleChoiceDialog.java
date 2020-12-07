@@ -47,28 +47,4 @@ public class SingleChoiceDialog extends DialogFragment {
         );
         return builder.create();
     }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
-    public boolean isSet() {
-        return set;
-    }
-
-    public void setSet(boolean set) {
-        this.set = set;
-    }
-
-    public boolean isCancel() {
-        return cancel;
-    }
-
-    public void setCancel(boolean cancel) {
-        this.cancel = cancel;
-    }
 }

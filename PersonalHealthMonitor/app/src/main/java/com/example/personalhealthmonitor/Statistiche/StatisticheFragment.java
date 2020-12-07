@@ -3,18 +3,14 @@ package com.example.personalhealthmonitor.Statistiche;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.example.personalhealthmonitor.Database.Report;
 import com.example.personalhealthmonitor.R;
 import com.example.personalhealthmonitor.Utilities.Converters;
@@ -35,59 +31,45 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import static com.example.personalhealthmonitor.MainActivity.KEY_BATTITO;
-import static com.example.personalhealthmonitor.MainActivity.KEY_GLICEMIAMAX;
-import static com.example.personalhealthmonitor.MainActivity.KEY_GLICEMIAMIN;
-import static com.example.personalhealthmonitor.MainActivity.KEY_PRESSIONEDIA;
-import static com.example.personalhealthmonitor.MainActivity.KEY_PRESSIONESIS;
-import static com.example.personalhealthmonitor.MainActivity.KEY_TEMPERATURA;
-import static com.example.personalhealthmonitor.MainActivity.reportViewModel;
+import static com.example.personalhealthmonitor.Utilities.Utility.*;
 
 public class StatisticheFragment extends Fragment {
-    private static final String KEY_SETTIMANA = "Settimana";
-    private static final String KEY_MESE = "Mese";
-    private static final String KEY_ANNO = "Anno";
-    private static final String KEY_TUTTO = "Tutto";
-    private SimpleDateFormat SDF;
     private MutableLiveData<String> periodo;
     private TextView TXVNumReport;
     private Date inizio, fine;
-    public PieChart pieChart;
-    public LineChart battitoChart;
-    public LineChart temperaturaChart;
-    public BarChart pressioneChart;
-    public BarChart glicemiaChart;
-
+    private PieChart pieChart;
+    private LineChart battitoChart;
+    private LineChart temperaturaChart;
+    private BarChart pressioneChart;
+    private BarChart glicemiaChart;
+    private View root;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SDF = new SimpleDateFormat("dd/MM/yyyy");
         periodo = new MutableLiveData<>();
         periodo.setValue(KEY_SETTIMANA);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root =  inflater.inflate(R.layout.fragment_statistiche, container, false);
+        root =  inflater.inflate(R.layout.fragment_statistiche, container, false);
 
         TextView TXVPeriodo = root.findViewById(R.id.TXVPeriodo);
+        //IN BASE A COME CAMBIA IL PERIODO SELEZIONATO CAMBIA TUTTO IL RESTO
         periodo.observe(getViewLifecycleOwner(), string -> {
             setDate();
             if(string.equals(KEY_TUTTO))  TXVPeriodo.setText(KEY_TUTTO);
             else  TXVPeriodo.setText("Dal " + Converters.DateToString(inizio) + " al " + Converters.DateToString(fine));
 
             TXVNumReport = root.findViewById(R.id.TXVNumReport);
+            //SE HO DEI REPORT ALLORA VISUALIZZO LE CARD CON I DATI A LORO ASSOCIATI ALTRIMENTI NO
             reportViewModel.getAllReports(inizio, fine).observe(getViewLifecycleOwner(), new Observer<List<Report>>() {
                 @Override
                 public void onChanged(List<Report> reports) {
@@ -137,6 +119,7 @@ public class StatisticheFragment extends Fragment {
         return root;
     }
 
+    //PRENDE LE DATE DI INIZIO E FINE DEL PERIODO INDICATO
     private void setDate(){
         switch (periodo.getValue()) {
             case KEY_SETTIMANA:
@@ -157,6 +140,7 @@ public class StatisticheFragment extends Fragment {
         }
     }
 
+    //SETTA LA DESCRIZIONE NULLA
     private Description getDescription(){
         Description description = new Description();
         description.setText("");
@@ -164,39 +148,40 @@ public class StatisticheFragment extends Fragment {
     }
 
 
+    //CONTA IL UMERO DI VALORI PRESENTI NEI VARI REPORT E CREA IL PIE CHART
     class PieDataAsyncTask extends AsyncTask<Void, Integer, ArrayList<PieEntry>>{
 
         @Override
         protected void onPostExecute(ArrayList<PieEntry> pieEntries) {
             super.onPostExecute(pieEntries);
 
-            PieDataSet pieDataSet = new PieDataSet(pieEntries, periodo.getValue());
-            pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-            pieDataSet.setValueTextSize(12);
-            pieDataSet.setValueTextColor(Color.BLACK);
-            PieData pieData = new PieData(pieDataSet);
+            if(pieEntries.size() > 0) {
+                PieDataSet pieDataSet = new PieDataSet(pieEntries, periodo.getValue());
+                pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+                pieDataSet.setValueTextSize(12);
+                pieDataSet.setValueTextColor(Color.BLACK);
+                PieData pieData = new PieData(pieDataSet);
 
-            pieChart.setData(pieData);
-            pieChart.setDescription(getDescription());
-            pieChart.animateXY(1000, 1000);
-            pieChart.invalidate();
+                pieChart.setData(pieData);
+                pieChart.setDescription(getDescription());
+                pieChart.animateXY(1000, 1000);
+                pieChart.invalidate();
+            }
         }
 
         @Override
         protected ArrayList<PieEntry> doInBackground(Void... voids) {
-
             //TXVNumReport.setText(String.valueOf(reportViewModel.getCOUNTVal(null, null, inizio, fine)));
             ArrayList<PieEntry> PiedataVals = new ArrayList<>();
-
             PiedataVals.add(new PieEntry(reportViewModel.getCOUNTVal(KEY_BATTITO,null, inizio, fine), "Battito"));
             PiedataVals.add(new PieEntry( reportViewModel.getCOUNTVal(KEY_TEMPERATURA, null, inizio, fine) , "Temperatura"));
             PiedataVals.add(new PieEntry(reportViewModel.getCOUNTVal(KEY_PRESSIONESIS, KEY_PRESSIONEDIA, inizio, fine), "Pressione"));
             PiedataVals.add(new PieEntry(reportViewModel.getCOUNTVal(KEY_GLICEMIAMAX, KEY_GLICEMIAMIN, inizio, fine), "Glicemia"));
-
            return PiedataVals;
         }
     }
 
+    //CREA IL CHART DEL BATTITO E DELLA TEMPERATURA PRENDENDO I DATI IN BASE AL PERIODO NEL DB
     class LineDataAsyncTask extends AsyncTask<String, Integer, ArrayList<Entry>>{
         private final ArrayList<String> xAxisLabel = new ArrayList<>();
         private String valore;
@@ -213,34 +198,40 @@ public class StatisticheFragment extends Fragment {
             LineData lineData = new LineData(lineDataSet);
 
             if (valore.equals(KEY_BATTITO)){
-                XAxis xAxis = battitoChart.getXAxis();
-                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                xAxis.setDrawGridLines(true);
-                xAxis.setGranularity(1);
-                xAxis.setGranularityEnabled(true);
-                battitoChart.setDescription(getDescription());
-                battitoChart.animateXY(1000, 1000);
-                battitoChart.setTouchEnabled(true);
-                battitoChart.setPinchZoom(true);
-                battitoChart.setData(lineData);
-                battitoChart.setScaleEnabled(true);
-                battitoChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
-                battitoChart.invalidate();
+                if(entries.size() > 0) {
+                    XAxis xAxis = battitoChart.getXAxis();
+                    xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                    xAxis.setDrawGridLines(true);
+                    xAxis.setGranularity(1);
+                    xAxis.setGranularityEnabled(true);
+                    battitoChart.setDescription(getDescription());
+                    battitoChart.animateXY(1000, 1000);
+                    battitoChart.setTouchEnabled(true);
+                    battitoChart.setPinchZoom(true);
+                    battitoChart.setData(lineData);
+                    battitoChart.setScaleEnabled(true);
+                    battitoChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
+                    battitoChart.invalidate();
+                }
+                else  root.findViewById(R.id.Cardbattito).setVisibility(View.GONE);
             }
             else{
-                XAxis xAxis = temperaturaChart.getXAxis();
-                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                xAxis.setDrawGridLines(true);
-                xAxis.setGranularity(1);
-                xAxis.setGranularityEnabled(true);
-                temperaturaChart.setDescription(getDescription());
-                temperaturaChart.animateXY(1000, 1000);
-                temperaturaChart.setTouchEnabled(true);
-                temperaturaChart.setPinchZoom(true);
-                temperaturaChart.setData(lineData);
-                temperaturaChart.setScaleEnabled(true);
-                temperaturaChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
-                temperaturaChart.invalidate();
+                if(entries.size() > 0) {
+                    XAxis xAxis = temperaturaChart.getXAxis();
+                    xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                    xAxis.setDrawGridLines(true);
+                    xAxis.setGranularity(1);
+                    xAxis.setGranularityEnabled(true);
+                    temperaturaChart.setDescription(getDescription());
+                    temperaturaChart.animateXY(1000, 1000);
+                    temperaturaChart.setTouchEnabled(true);
+                    temperaturaChart.setPinchZoom(true);
+                    temperaturaChart.setData(lineData);
+                    temperaturaChart.setScaleEnabled(true);
+                    temperaturaChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
+                    temperaturaChart.invalidate();
+                }
+                else root.findViewById(R.id.Cardtemperatura).setVisibility(View.GONE);
             }
         }
 
@@ -285,6 +276,7 @@ public class StatisticheFragment extends Fragment {
         }
     }
 
+    //CREA IL CHART DELLA PRESSIONE E DELLA GLICEMIA PRENDENDO I DATI IN BASE AL PERIODO NEL DB
     class BarDataAsyncTask extends AsyncTask<String, Integer, List<ArrayList<BarEntry>>>{
         private final ArrayList<String> xAxisLabel = new ArrayList<>();
         private String valore1;
@@ -312,19 +304,22 @@ public class StatisticheFragment extends Fragment {
                     barDataSet2.setColor(Color.rgb(52, 152, 219));
                     barData.addDataSet(barDataSet2);
                 }
-                XAxis xAxis = pressioneChart.getXAxis();
-                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                xAxis.setDrawGridLines(true);
-                xAxis.setGranularity(1);
-                xAxis.setGranularityEnabled(true);
-                pressioneChart.setDescription(getDescription());
-                pressioneChart.animateXY(1000, 1000);
-                pressioneChart.setTouchEnabled(true);
-                pressioneChart.setPinchZoom(true);
-                pressioneChart.setData(barData);
-                pressioneChart.setScaleEnabled(true);
-                pressioneChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
-                pressioneChart.invalidate();
+                if(entries.get(0).size() > 0 || entries.get(1).size() > 0) {
+                    XAxis xAxis = pressioneChart.getXAxis();
+                    xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                    xAxis.setDrawGridLines(true);
+                    xAxis.setGranularity(1);
+                    xAxis.setGranularityEnabled(true);
+                    pressioneChart.setDescription(getDescription());
+                    pressioneChart.animateXY(1000, 1000);
+                    pressioneChart.setTouchEnabled(true);
+                    pressioneChart.setPinchZoom(true);
+                    pressioneChart.setData(barData);
+                    pressioneChart.setScaleEnabled(true);
+                    pressioneChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
+                    pressioneChart.invalidate();
+                }
+                else root.findViewById(R.id.Cardpressione).setVisibility(View.GONE);
             }
             else{
                 label1 = getString(R.string.prompt_glicemia_max);
@@ -344,19 +339,22 @@ public class StatisticheFragment extends Fragment {
                     barDataSet2.setColor(Color.rgb(52, 152, 219));
                     barData.addDataSet(barDataSet2);
                 }
-                XAxis xAxis = glicemiaChart.getXAxis();
-                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                xAxis.setDrawGridLines(true);
-                xAxis.setGranularity(1);
-                xAxis.setGranularityEnabled(true);
-                glicemiaChart.setDescription(getDescription());
-                glicemiaChart.animateXY(1000, 1000);
-                glicemiaChart.setTouchEnabled(true);
-                glicemiaChart.setPinchZoom(true);
-                glicemiaChart.setData(barData);
-                glicemiaChart.setScaleEnabled(true);
-                glicemiaChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
-                glicemiaChart.invalidate();
+                if(entries.get(0).size() > 0 || entries.get(1).size() > 0) {
+                    XAxis xAxis = glicemiaChart.getXAxis();
+                    xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                    xAxis.setDrawGridLines(true);
+                    xAxis.setGranularity(1);
+                    xAxis.setGranularityEnabled(true);
+                    glicemiaChart.setDescription(getDescription());
+                    glicemiaChart.animateXY(1000, 1000);
+                    glicemiaChart.setTouchEnabled(true);
+                    glicemiaChart.setPinchZoom(true);
+                    glicemiaChart.setData(barData);
+                    glicemiaChart.setScaleEnabled(true);
+                    glicemiaChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
+                    glicemiaChart.invalidate();
+                }
+                else root.findViewById(R.id.Cardglicemia).setVisibility(View.GONE);
             }
         }
 

@@ -1,10 +1,14 @@
 package com.example.personalhealthmonitor.Utilities;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.personalhealthmonitor.Database.Notification;
+import com.example.personalhealthmonitor.Database.NotificationViewModel;
 import com.example.personalhealthmonitor.Database.Report;
+import com.example.personalhealthmonitor.Database.ReportViewModel;
 import com.example.personalhealthmonitor.Database.Settings;
+import com.example.personalhealthmonitor.Database.SettingsViewModel;
 import com.example.personalhealthmonitor.R;
 
 import java.text.SimpleDateFormat;
@@ -12,19 +16,41 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static com.example.personalhealthmonitor.MainActivity.KEY_BATTITO;
-import static com.example.personalhealthmonitor.MainActivity.KEY_GLICEMIAMAX;
-import static com.example.personalhealthmonitor.MainActivity.KEY_GLICEMIAMIN;
-import static com.example.personalhealthmonitor.MainActivity.KEY_NOTIFICATION;
-import static com.example.personalhealthmonitor.MainActivity.KEY_PRESSIONEDIA;
-import static com.example.personalhealthmonitor.MainActivity.KEY_PRESSIONESIS;
-import static com.example.personalhealthmonitor.MainActivity.KEY_TEMPERATURA;
-import static com.example.personalhealthmonitor.MainActivity.SDF;
-import static com.example.personalhealthmonitor.MainActivity.notificationViewModel;
-import static com.example.personalhealthmonitor.MainActivity.reportViewModel;
-import static com.example.personalhealthmonitor.MainActivity.settingsViewModel;
-
 public class Utility extends Fragment {
+
+    public static ReportViewModel reportViewModel;
+    public static SettingsViewModel settingsViewModel;
+    public static NotificationViewModel notificationViewModel;
+    public static final String U_BATTITO = " bpm";
+    public static final String U_TEMPERATURA = " °C";
+    public static final String U_PRESSIONE = " mmHg";
+    public static final String U_GLICEMIA = " mg/dl";
+    public static final String KEY_BATTITO = "report_battito";
+    public static final String KEY_TEMPERATURA = "report_temperatura";
+    public static final String KEY_PRESSIONESIS = "report_pressione_sistolica";
+    public static final String KEY_PRESSIONEDIA = "report_pressione_diastolica";
+    public static final String KEY_GLICEMIAMAX = "report_glicemia_max";
+    public static final String KEY_GLICEMIAMIN = "report_glicemia_min";
+    public static final String KEY_NOTIFICATION = "NOTIFICATION";
+    public static final String KEY_SETTIMANA = "Settimana";
+    public static final String KEY_MESE = "Mese";
+    public static final String KEY_ANNO = "Anno";
+    public static final String KEY_TUTTO = "Tutto";
+    public static final int BATTITORANGE1 = 40;
+    public static final int BATTITORANGE2 = 180;
+    public static final int TEMPERATURARANGE1 = 35;
+    public static final int TEMPERATURARANGE2 = 43;
+    public static final int PRESSIONERANGE1 = 40;
+    public static final int PRESSIONERANGE2 = 180;
+    public static final int GLICEMIARANGE1 = 50;
+    public static final int GLICEMIARANGE2 = 200;
+    public static MutableLiveData<Integer> filtro;
+    public static SimpleDateFormat SDF = new SimpleDateFormat("dd/MM/yyyy");
+    public static final String KEY_REPORT_DAILY = "NOTIFY DAILY";
+    public static final String KEY_WARNING = "NOTIFY WARNING";
+    public static final String KEY_RIMANDA = "NOTIFY RIMANDA";
+    public static final String CHANNEL_ID = "Daily_notification";
+    public static final int NOTIFICATION_ID = 1;
 
     //Tronca il valore double
     public static double tronca(Double num){
@@ -37,6 +63,7 @@ public class Utility extends Fragment {
         }
     }
 
+    //PASSANDO LA CHIAVE RESTITUISCE IL VALORE SSALVATO NEL REPORT
     public static String KeyToPrompt(String key){
         switch (key){
             case KEY_BATTITO: return "Battito cardiaco";
@@ -49,6 +76,7 @@ public class Utility extends Fragment {
         return null;
     }
 
+    //LE FUNZIONI SEGUENTI RESTITUISCONO LA DATA DEL PERIODO RICHIESTO
     public static Date PrimoGiornoSettimana(Calendar calendar){
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
@@ -84,6 +112,7 @@ public class Utility extends Fragment {
         return Converters.StringToDate(SDF.format(calendar.getTime()));
     }
 
+    //SETTA N REPORT RANDOMICI
     public static void randomData(int numReport){
 
         for(int i = 0; i<numReport; i++){
@@ -123,6 +152,7 @@ public class Utility extends Fragment {
         notificationViewModel.insertNotification(tmpNotification);
     }
 
+    //CREA VALORI DOUBLE RANDOM
     private static double randomDouble(double inizio, double fine){
         boolean bool = ThreadLocalRandom.current().nextBoolean();
         if(bool) {
@@ -134,6 +164,7 @@ public class Utility extends Fragment {
         else return  0;
     }
 
+    //CREA DATE RANDOM
     private static Date randomDate (Date d1, Date d2) {
         return new Date(ThreadLocalRandom.current().nextLong(d1.getTime(), d2.getTime()));
     }
