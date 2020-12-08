@@ -125,7 +125,7 @@ public class ReportViewModel extends AndroidViewModel {
         if(inizio != null && fine != null) return reportDao.getAllReports(new SimpleSQLiteQuery(query+ "WHERE report_giorno >= "+ Converters.DateToLong(inizio)+ " AND report_giorno <= "+ Converters.DateToLong(fine) + filter + query_final));
         //prendo i report di un giorno specifico
         if(inizio != null){
-            Log.i("QUERY", query+"WHERE report_giorno = "+ Converters.DateToLong(inizio)+ filter);
+            //Log.i("QUERY", query+"WHERE report_giorno = "+ Converters.DateToLong(inizio)+ filter);
             return reportDao.getAllReports(new SimpleSQLiteQuery(query+ "WHERE report_giorno = "+ Converters.DateToLong(inizio)+ filter + query_final));
         }
         return null;

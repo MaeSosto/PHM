@@ -19,13 +19,7 @@ import static com.example.personalhealthmonitor.Utilities.Utility.*;
 
 public class Alarm extends Service {
     private static AlarmManager alarmManagerReportDaily;
-    private AlarmManager alarmManagerReportWarning;
     private static PendingIntent pendingIntentReportDaily;
-    private PendingIntent pendingIntentReportWarning;
-    private static String WarningString = "";
-    private static AlarmManager alarmManagerRimanda;
-    private static PendingIntent pendingIntentRimanda;
-
 
     @Override
     public void onCreate() {
@@ -39,18 +33,6 @@ public class Alarm extends Service {
         Intent intentDaily = new Intent(getApplicationContext(), Notification_receiver.class);
         intentDaily.setAction(KEY_REPORT_DAILY);
         pendingIntentReportDaily = PendingIntent.getBroadcast(getApplicationContext(), NOTIFICATION_ID, intentDaily, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        //Setto le notifiche di warning
-        alarmManagerReportWarning = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent intentWarning = new Intent(getApplicationContext(), Notification_receiver.class);
-        intentWarning.setAction(KEY_WARNING);
-        pendingIntentReportWarning = PendingIntent.getBroadcast(getApplicationContext(), NOTIFICATION_ID, intentWarning, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        //Setto le notifiche quando rimando
-        alarmManagerRimanda = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent intentRimanda = new Intent(getApplicationContext(), Notification_receiver.class);
-        intentRimanda.setAction(KEY_RIMANDA);
-        pendingIntentRimanda = PendingIntent.getBroadcast(getApplicationContext(), NOTIFICATION_ID, intentRimanda, PendingIntent.FLAG_UPDATE_CURRENT);
 
         reportViewModel.getAllReports(Converters.StringToDate(SDF.format(Calendar.getInstance().getTime())), null).observeForever(reports -> {
             setDailyNotification();
@@ -96,7 +78,6 @@ public class Alarm extends Service {
         settingsViewModel.getmAllSettingsFilter(3).observeForever(list -> {
             Settings[] set = new Settings[list.size()];
             for(int i = 0; i < list.size(); i++){
-                //Log.i("CONTROLLO", list.get(i).getValore());
                 set[i] = list.get(i);
             }
             new AVGSettings().execute(set);
@@ -108,30 +89,38 @@ public class Alarm extends Service {
         @Override
         protected void onPostExecute(String aString) {
             super.onPostExecute(aString);
-            //Log.i("WARNING STRING FINAL", WarningString);
-            if(!WarningString.matches("")){
+            Log.i("WARNING STRING FINAL", aString);
+            if(!aString.matches("")){
                 //Log.i("WARNING STRING NOTIFICA", WarningString);
                 Calendar alarmClock = Calendar.getInstance();
                 alarmClock.set(Calendar.HOUR_OF_DAY, 9);
                 alarmClock.set(Calendar.MINUTE, 0);
                 alarmClock.set(Calendar.SECOND, 0);
                 alarmClock.add(Calendar.DATE, 1);
+
+                //Setto le notifiche di warning
+                AlarmManager alarmManagerReportWarning = (AlarmManager) getSystemService(ALARM_SERVICE);
+                Intent intentWarning = new Intent(getApplicationContext(), Notification_receiver.class);
+                intentWarning.setAction(KEY_WARNING);
+                intentWarning.putExtra("WarningString", aString);
+                PendingIntent pendingIntentReportWarning = PendingIntent.getBroadcast(getApplicationContext(), NOTIFICATION_ID, intentWarning, PendingIntent.FLAG_UPDATE_CURRENT);
+
                 Log.i("WARNING ALARM", Converters.DateToString(alarmClock.getTime())+ " alle "+ alarmClock.getTime().getHours()+":"+ alarmClock.getTime().getMinutes());
                 alarmManagerReportWarning.setRepeating(android.app.AlarmManager.RTC_WAKEUP, alarmClock.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntentReportWarning);
             }
         }
-
+//
         @Override
         protected String doInBackground(Settings... settings) {
-            WarningString ="";
+            String warning ="";
             for (Settings mSettings : settings) {
                 Double avg = reportViewModel.getAvgVal(mSettings.getValore(), mSettings.getInizio(), mSettings.getFine());
                 if (avg != null && avg > mSettings.getLimite()) {
-                    WarningString += Utility.KeyToPrompt(mSettings.getValore()) + ": " + tronca(avg) + "/" + mSettings.getLimite() + " tra il " + Converters.DateToString(mSettings.getInizio()) + " e il " + Converters.DateToString(mSettings.getFine()) + "\n";
+                    warning += Utility.KeyToPrompt(mSettings.getValore()) + ": " + tronca(avg) + "/" + mSettings.getLimite() + " tra il " + Converters.DateToString(mSettings.getInizio()) + " e il " + Converters.DateToString(mSettings.getFine()) + "\n";
                     //Log.i("WARNING STRING", WarningString);
                 }
             }
-            return WarningString;
+            return warning;
         }
     }
 
@@ -153,20 +142,5 @@ public class Alarm extends Service {
             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(notificationChannel);
         }
-    }
-
-    public static String getWarningString() {
-        return WarningString;
-    }
-
-    //SETTA LA PROSSIMA NOTIFICA RIMANDATA
-    public static void RimandaON(Calendar alarmClock){
-        Log.i("RIMANDA ALARM", Converters.DateToString(alarmClock.getTime())+ " alle "+ alarmClock.getTime().getHours()+":"+ alarmClock.getTime().getMinutes());
-        alarmManagerRimanda.setRepeating(android.app.AlarmManager.RTC_WAKEUP, alarmClock.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntentRimanda);
-    }
-
-    //SETTA LA PROSSIMA NOTIFICA RIMANDATA COME SPENTA
-    public static void RimandaOFF(){
-        alarmManagerRimanda.cancel(pendingIntentRimanda);
     }
 }

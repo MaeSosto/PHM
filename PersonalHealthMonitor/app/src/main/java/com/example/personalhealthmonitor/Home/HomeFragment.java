@@ -171,12 +171,12 @@ public class HomeFragment extends Fragment {
                 else BTNfiltro.setText(R.string.home_BTNfiltro);
             }
         })
-                .setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        .setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
-                    }
-                });
+            }
+        });
         builder.create();
         builder.show();
     }

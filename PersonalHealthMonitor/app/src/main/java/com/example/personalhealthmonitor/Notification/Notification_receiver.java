@@ -1,6 +1,7 @@
 package com.example.personalhealthmonitor.Notification;
 
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,10 +18,7 @@ public class Notification_receiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        //Log.i("RECEIVER", "");
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
-
-        //Log.i("INTENT", intent.getAction());
         //NOTIFICA GIORNALIERA
         if (intent.getAction().equals(KEY_REPORT_DAILY)) {
             notificationManagerCompat.notify(NOTIFICATION_ID, sendDailyNotification(context).build());
@@ -28,19 +26,19 @@ public class Notification_receiver extends BroadcastReceiver {
         }
         //NOTIFICA DI ALLARME
        if (intent.getAction().equals(KEY_WARNING)) {
-           notificationManagerCompat.notify(NOTIFICATION_ID, sendWarningNotification(context).build());
+           String WarningString = intent.getStringExtra("WarningString");
+           notificationManagerCompat.notify(NOTIFICATION_ID, sendWarningNotification(context, WarningString).build());
            Log.i("Notify", "Report Warning Alarm");
        }
        //NOTIFICA RIMANDATA
        if(intent.getAction().equals(KEY_RIMANDA)){
            notificationManagerCompat.notify(NOTIFICATION_ID, sendDailyNotification(context).build());
            Log.i("Notify", "Report Rimanda");
-           Alarm.RimandaOFF();
        }
     }
 
     //CREA LA NOTIFICA DI ALLARME
-    private NotificationCompat.Builder sendWarningNotification(Context mContext) {
+    private NotificationCompat.Builder sendWarningNotification(Context mContext, String WarningString) {
         //INTENT NOTIFICA WARNING
         Intent intent_notification = new Intent(mContext, StatisticheFragment.class);
         intent_notification.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -52,7 +50,7 @@ public class Notification_receiver extends BroadcastReceiver {
                 .setContentTitle("Attenzione, alcuni valori hanno superato il limite!")
                 .setContentText("")
                 .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(Alarm.getWarningString()))
+                        .bigText(WarningString))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
@@ -69,8 +67,9 @@ public class Notification_receiver extends BroadcastReceiver {
 
         //INTENT BOTTONE1 NOTIFICA GIORNALIERA
         Intent IntentNuovoReport = new Intent(mContext, NewReportActivity.class);
-        IntentNuovoReport.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntentNuovoReport = PendingIntent.getActivity(mContext, 0,IntentNuovoReport, PendingIntent.FLAG_ONE_SHOT);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(mContext);
+        stackBuilder.addNextIntentWithParentStack(IntentNuovoReport);
+        PendingIntent pendingIntentNuovoReport = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //INTENT BOTTONE2 NOTIFICA GIORNALIERA
         Intent IntentRimanda = new Intent(mContext, RimandaActivity.class);

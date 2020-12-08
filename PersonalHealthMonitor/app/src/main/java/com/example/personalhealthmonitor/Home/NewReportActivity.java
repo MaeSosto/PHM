@@ -49,7 +49,7 @@ public class NewReportActivity extends AppCompatActivity {
         //RIMUOVE LA NOTIFICA QUANDO LA SI APRE
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.cancel(NOTIFICATION_ID);
-        startService(new Intent( this, Alarm.class));
+
 
         ETbattiti = findViewById(R.id.ETbattiti);
         ETpressioneSistolica = findViewById(R.id.ETpressioneSistolica);

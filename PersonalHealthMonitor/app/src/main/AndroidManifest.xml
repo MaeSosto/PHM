@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PersonalHealthMonitor">
         <activity android:name=".Notification.RimandaActivity"
-            android:parentActivityName=".MainActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
             android:label="Imposta notifica"></activity>
         <activity
             android:name=".Settings.SettingsActivity"
@@ -25,7 +27,6 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

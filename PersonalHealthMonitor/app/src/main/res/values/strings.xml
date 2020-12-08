@@ -70,6 +70,7 @@
     <string name="rimanda_label1">"Verrai avvisato alle "</string>
     <string name="duePunti">:</string>
     <string name="home_BTNfiltro">Filtro</string>
+    <string name="rimanda_label2">Operazione annullata</string>
     <string-array name="choiche_dialog">
         <item>Tutti</item>
         <item>Due</item>

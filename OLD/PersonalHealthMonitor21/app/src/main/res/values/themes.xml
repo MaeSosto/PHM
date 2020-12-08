@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.PersonalHealthMonitor" parent="Theme.MaterialComponents.Light">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/russian_green</item>
+        <item name="colorPrimaryVariant">@color/outer_space_crayola</item>
+        <item name="colorOnPrimary">@color/baby_powder</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/persian_plum</item>
+        <item name="colorSecondaryVariant">@color/outer_space_crayola</item>
+        <item name="colorOnSecondary">@color/outer_space_crayola</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>
