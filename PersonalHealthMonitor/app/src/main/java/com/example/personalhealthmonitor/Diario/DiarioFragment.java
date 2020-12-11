@@ -136,7 +136,7 @@ public class DiarioFragment extends Fragment {
 
     //AGGIORNA LA LISTA DEI REPORT
     private void updateList(){
-        Log.i("UPDATE", "");
+        //Log.i("UPDATE", "");
         TXVGiorno.setText(R.string.diario_label2);
         Calendar Cmese = calendarView.getCurrentPageDate();
         int ultimo = Cmese.getActualMaximum(Calendar.DAY_OF_MONTH);

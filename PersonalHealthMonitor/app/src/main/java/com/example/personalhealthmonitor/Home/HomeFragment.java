@@ -51,7 +51,6 @@ public class HomeFragment extends Fragment {
 
         //Setto la data di oggi
         calendar = Calendar.getInstance();
-
         dataSel = new MutableLiveData<>();
         dataSel.setValue(Converters.StringToDate(SDF.format(calendar.getTime())));
     }
